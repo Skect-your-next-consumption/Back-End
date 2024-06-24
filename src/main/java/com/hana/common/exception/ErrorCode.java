@@ -26,6 +26,9 @@ public enum ErrorCode {
     NOT_FOUND_REFRESHTOKEN("U006", "리프레쉬 토큰이 존재하지 않습니다."),
     INVALID_ACCESSTOKEN("U007", "유효하지 않은 액세스 토큰 입니다."),
     NOT_FOUND_ACCESSTOKEN("U008", "액세스 토큰이 존재하지 않습니다."),
+
+    // Account
+    ACCOUNT_NUM_DUPLICATION("A001", "중복된 계좌번호입니다.")
     ;
 
     private final String errorCode;
