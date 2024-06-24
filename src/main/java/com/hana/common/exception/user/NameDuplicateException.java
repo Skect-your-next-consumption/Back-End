@@ -1,5 +1,6 @@
-package com.hana.common.exception;
+package com.hana.common.exception.user;
 
+import com.hana.common.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter
