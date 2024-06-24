@@ -1,5 +1,6 @@
 package com.hana.common.exception;
 
+import com.hana.common.exception.type.StateNotFoundException;
 import com.hana.common.response.Response;
 import com.hana.common.exception.user.UserNotAuthenticationException;
 import com.hana.common.exception.user.UserNotFoundException;
@@ -32,6 +33,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException ex){
         log.error("UserNotFoundException : ",ex);
 
+        return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(StateNotFoundException.class)
+    public ResponseEntity<?> handleStateNotFoundException(StateNotFoundException ex){
         return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

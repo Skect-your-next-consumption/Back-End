@@ -1,10 +1,10 @@
-package com.hana.api.login.service;
+package com.hana.api.user.service;
 
-import com.hana.api.login.dto.request.LoginRequest;
-import com.hana.api.login.dto.request.SignupRequest;
-import com.hana.api.login.dto.response.LoginResponseDto;
-import com.hana.api.login.entity.User;
-import com.hana.api.login.repository.UserRepository;
+import com.hana.api.user.dto.request.LoginRequest;
+import com.hana.api.user.dto.request.SignupRequest;
+import com.hana.api.user.dto.response.LoginResponseDto;
+import com.hana.api.user.entity.User;
+import com.hana.api.user.repository.UserRepository;
 import com.hana.common.response.Response;
 import com.hana.common.exception.ErrorCode;
 import com.hana.config.security.jwt.JwtTokenProvider;
@@ -18,9 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor

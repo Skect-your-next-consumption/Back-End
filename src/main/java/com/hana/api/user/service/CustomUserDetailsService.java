@@ -1,6 +1,6 @@
-package com.hana.api.login.service;
+package com.hana.api.user.service;
 
-import com.hana.api.login.repository.UserRepository;
+import com.hana.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 
         // 로그인 ID로 User 찾기
-        com.hana.api.login.entity.User user = userRepository.findByUserId(userId)
+        com.hana.api.user.entity.User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("Consultant not found"));
 
         // UserDetails 객체로 반환

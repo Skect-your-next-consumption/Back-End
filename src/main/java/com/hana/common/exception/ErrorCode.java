@@ -11,6 +11,9 @@ import lombok.Getter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public enum ErrorCode {
 
+    // State
+    STATE_NOT_FOUND("S001", "등록된 State가 아닙니다."),
+
     // User
     USER_NOT_FOUND("U001","등록된 회원이 아닙니다."),
     USER_NOT_AUTHENTICATION("U002", "인증된 회원이 아닙니다."),

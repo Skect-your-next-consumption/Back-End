@@ -1,4 +1,4 @@
-package com.hana.api.login.dto.request;
+package com.hana.api.user.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

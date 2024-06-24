@@ -1,4 +1,4 @@
-package com.hana.api.login.dto.response;
+package com.hana.api.user.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

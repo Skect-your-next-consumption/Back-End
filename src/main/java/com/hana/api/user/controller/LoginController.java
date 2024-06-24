@@ -1,17 +1,14 @@
-package com.hana.api.login.controller;
+package com.hana.api.user.controller;
 
-import com.hana.api.login.dto.request.LoginRequest;
-import com.hana.api.login.dto.request.SignupRequest;
-import com.hana.api.login.service.LoginService;
+import com.hana.api.user.dto.request.LoginRequest;
+import com.hana.api.user.dto.request.SignupRequest;
+import com.hana.api.user.service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,7 +27,7 @@ public class LoginController {
 
     @Operation(summary = "로그인", description = "로그인을 위한 API 입니다.")
     @PostMapping("")
-    public ResponseEntity<?> createConsultantAuthToken(@RequestBody LoginRequest authRequest) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest authRequest) {
         log.info(authRequest.toString());
         return loginService.signIn(authRequest);
     }

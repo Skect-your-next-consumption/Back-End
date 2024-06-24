@@ -1,8 +1,7 @@
 package com.hana.common.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
+import com.hana.common.type.State;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,4 +20,7 @@ public class BaseEntity {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdDate;
+
+    @Enumerated(EnumType.STRING)
+    private State state;
 }

@@ -2,7 +2,7 @@ package com.hana.config.security.jwt;
 
 //import com.hana.api.auth.dto.response.AuthResponseDto;
 //import com.hana.api.user.dto.response.UserResponseDto;
-import com.hana.api.login.dto.response.LoginResponseDto;
+import com.hana.api.user.dto.response.LoginResponseDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;

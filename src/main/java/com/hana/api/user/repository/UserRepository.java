@@ -1,6 +1,6 @@
-package com.hana.api.login.repository;
+package com.hana.api.user.repository;
 
-import com.hana.api.login.entity.User;
+import com.hana.api.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
