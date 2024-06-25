@@ -1,6 +1,8 @@
 package com.hana.common.exception;
 
 import com.hana.common.exception.account.AccountNumDuplicateException;
+import com.hana.common.exception.type.GenderNotFoundException;
+import com.hana.common.exception.type.RoleNotFoundException;
 import com.hana.common.exception.type.StateNotFoundException;
 import com.hana.common.response.Response;
 import com.hana.common.exception.user.UserNotAuthenticationException;
@@ -28,18 +30,28 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotAuthenticationException.class)
     public ResponseEntity<?> handleUserNotAuthentication(UserNotAuthenticationException ex){
         log.error("UserNotAuthentication : ",ex);
-        return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return response.fail(ex.getErrorCode(), HttpStatus.UNAUTHORIZED);
     }
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException ex){
         log.error("UserNotFoundException : ",ex);
 
-        return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return response.fail(ex.getErrorCode(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(StateNotFoundException.class)
     public ResponseEntity<?> handleStateNotFoundException(StateNotFoundException ex){
-        return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return response.fail(ex.getErrorCode(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<?> handleRoleNotFoundException(RoleNotFoundException ex){
+        return response.fail(ex.getErrorCode(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(GenderNotFoundException.class)
+    public ResponseEntity<?> handleGenderNotFoundException(GenderNotFoundException ex){
+        return response.fail(ex.getErrorCode(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AccountNumDuplicateException.class)
