@@ -7,8 +7,8 @@ import java.util.Arrays;
 
 public enum Gender {
 
-    Male("남자"),
-    Female("여자");
+    Male("male"),
+    Female("female");
 
     private String value;
 
