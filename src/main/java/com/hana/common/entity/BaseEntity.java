@@ -19,8 +19,8 @@ public class BaseEntity {
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime createdDate;
+    protected LocalDateTime createdDate;
 
     @Enumerated(EnumType.STRING)
-    private State state;
+    protected State state;
 }
