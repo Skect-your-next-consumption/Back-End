@@ -30,7 +30,11 @@ public enum ErrorCode {
     NOT_FOUND_ACCESSTOKEN("U008", "액세스 토큰이 존재하지 않습니다."),
 
     // Account
-    ACCOUNT_NUM_DUPLICATION("A001", "중복된 계좌번호입니다.")
+    ACCOUNT_NUM_DUPLICATION("A001", "중복된 계좌번호입니다."),
+
+    // S3
+    IMAGE_UPLOAD_FAIL("S001", "이미지 업로드에 실패했습니다."),
+    IMAGE_DELETE_FAIL("S002", "이미지 삭제에 실패했습니다")
     ;
 
     private final String errorCode;

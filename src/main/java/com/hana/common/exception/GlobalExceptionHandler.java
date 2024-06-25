@@ -1,9 +1,11 @@
 package com.hana.common.exception;
 
 import com.hana.common.exception.account.AccountNumDuplicateException;
+import com.hana.common.exception.s3.S3EssayUploadException;
 import com.hana.common.exception.type.GenderNotFoundException;
 import com.hana.common.exception.type.RoleNotFoundException;
 import com.hana.common.exception.type.StateNotFoundException;
+import com.hana.common.exception.user.NameDuplicateException;
 import com.hana.common.response.Response;
 import com.hana.common.exception.user.UserNotAuthenticationException;
 import com.hana.common.exception.user.UserNotFoundException;
@@ -39,6 +41,11 @@ public class GlobalExceptionHandler {
         return response.fail(ex.getErrorCode(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(NameDuplicateException.class)
+    public ResponseEntity<?> handleNameDuplicateException(NameDuplicateException ex){
+        return response.fail(ex.getErrorCode(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(StateNotFoundException.class)
     public ResponseEntity<?> handleStateNotFoundException(StateNotFoundException ex){
         return response.fail(ex.getErrorCode(), HttpStatus.NOT_FOUND);
@@ -56,6 +63,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccountNumDuplicateException.class)
     public ResponseEntity<?> handleAccountNumDuplicateException(AccountNumDuplicateException ex){
+        return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(S3EssayUploadException.class)
+    public ResponseEntity<?> handleS3EssayUploadException(S3EssayUploadException ex){
         return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

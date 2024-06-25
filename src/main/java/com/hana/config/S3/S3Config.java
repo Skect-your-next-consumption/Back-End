@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-//@PropertySource("classpath:application-prod.yml")
 public class S3Config {
     @Value("${cloud.aws.credentials.accessKey}")
     private String accessKey;
