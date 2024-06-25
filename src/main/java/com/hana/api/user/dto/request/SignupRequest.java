@@ -1,6 +1,5 @@
 package com.hana.api.user.dto.request;
 
-import com.hana.api.user.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
