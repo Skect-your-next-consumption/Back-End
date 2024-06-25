@@ -23,4 +23,11 @@ public class BaseEntity {
 
     @Enumerated(EnumType.STRING)
     protected State state;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.state == null) {
+            this.state = State.Active;
+        }
+    }
 }
