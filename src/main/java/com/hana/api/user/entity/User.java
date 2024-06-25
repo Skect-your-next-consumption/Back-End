@@ -7,6 +7,7 @@ import com.hana.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class User extends BaseEntity {
     private String userGender;
 
     @Column(name = "user_birth")
-    private LocalDateTime userBirth;
+    private LocalDate userBirth;
 
     @Column(name = "user_phone", length = 30)
     private String userPhone;

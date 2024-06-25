@@ -7,6 +7,7 @@ import com.hana.api.user.entity.User;
 import com.hana.api.user.repository.UserRepository;
 import com.hana.common.response.Response;
 import com.hana.common.exception.ErrorCode;
+import com.hana.common.util.UuidGenerator;
 import com.hana.config.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -30,13 +32,20 @@ public class LoginService {
     private final AuthenticationManager authenticationManager;
     private final Response response;
 
+
     public ResponseEntity<?> signUp(SignupRequest signupRequest){
 
         User user =
                 User.builder()
-                        .userCode("124123")
-                        .userId(signupRequest.getUser_id())
-                        .userPwd(passwordEncoder.encode(signupRequest.getUser_pwd()))
+                        .userCode(UuidGenerator.generateUuid())
+                        .userId(signupRequest.getUserId())
+                        .userPwd(passwordEncoder.encode(signupRequest.getUserPwd()))
+                        .userName(signupRequest.getUserName())
+                        .userGender(signupRequest.getUserGender())
+                        .userBirth(signupRequest.getUserBirth())
+                        .userPhone(signupRequest.getUserPhone())
+                        .userAddress(signupRequest.getUserAddress())
+                        .userProfile(signupRequest.getUserProfile())
 //                        .role(signupRequest.getRole())
                         .build();
 
