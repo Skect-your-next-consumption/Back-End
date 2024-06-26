@@ -4,6 +4,8 @@ import com.hana.api.account.entity.Account;
 import com.hana.api.challenge.entity.ChallengeUsers;
 import com.hana.api.diary.entity.PictureDiary;
 import com.hana.common.entity.BaseEntity;
+import com.hana.common.type.Gender;
+import com.hana.common.type.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,8 +35,8 @@ public class User extends BaseEntity {
     @Column(name = "user_name", length = 25, nullable = false)
     private String userName;
 
-    @Column(name = "user_gender", length = 25)
-    private String userGender;
+    @Enumerated(EnumType.STRING)
+    private Gender userGender;
 
     @Column(name = "user_birth")
     private LocalDate userBirth;
@@ -48,8 +50,11 @@ public class User extends BaseEntity {
     @Column(name = "user_address", length = 100)
     private String userAddress;
 
-    @Column(name = "user_profile", length = 100)
+    @Column(name = "user_profile", length = 300)
     private String userProfile;
+
+    @Enumerated(EnumType.STRING)
+    private Role userRole;
 
     @OneToOne
     @JoinColumn(name = "account_num")

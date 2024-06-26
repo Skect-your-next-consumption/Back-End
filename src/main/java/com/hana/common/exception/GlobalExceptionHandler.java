@@ -1,7 +1,11 @@
 package com.hana.common.exception;
 
 import com.hana.common.exception.account.AccountNumDuplicateException;
+import com.hana.common.exception.s3.S3EssayUploadException;
+import com.hana.common.exception.type.GenderNotFoundException;
+import com.hana.common.exception.type.RoleNotFoundException;
 import com.hana.common.exception.type.StateNotFoundException;
+import com.hana.common.exception.user.NameDuplicateException;
 import com.hana.common.response.Response;
 import com.hana.common.exception.user.UserNotAuthenticationException;
 import com.hana.common.exception.user.UserNotFoundException;
@@ -28,22 +32,42 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotAuthenticationException.class)
     public ResponseEntity<?> handleUserNotAuthentication(UserNotAuthenticationException ex){
         log.error("UserNotAuthentication : ",ex);
-        return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return response.fail(ex.getErrorCode(), HttpStatus.UNAUTHORIZED);
     }
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException ex){
         log.error("UserNotFoundException : ",ex);
 
-        return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return response.fail(ex.getErrorCode(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NameDuplicateException.class)
+    public ResponseEntity<?> handleNameDuplicateException(NameDuplicateException ex){
+        return response.fail(ex.getErrorCode(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(StateNotFoundException.class)
     public ResponseEntity<?> handleStateNotFoundException(StateNotFoundException ex){
-        return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return response.fail(ex.getErrorCode(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<?> handleRoleNotFoundException(RoleNotFoundException ex){
+        return response.fail(ex.getErrorCode(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(GenderNotFoundException.class)
+    public ResponseEntity<?> handleGenderNotFoundException(GenderNotFoundException ex){
+        return response.fail(ex.getErrorCode(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AccountNumDuplicateException.class)
     public ResponseEntity<?> handleAccountNumDuplicateException(AccountNumDuplicateException ex){
+        return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(S3EssayUploadException.class)
+    public ResponseEntity<?> handleS3EssayUploadException(S3EssayUploadException ex){
         return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

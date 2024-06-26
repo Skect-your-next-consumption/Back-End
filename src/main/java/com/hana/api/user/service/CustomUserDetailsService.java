@@ -26,7 +26,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // UserDetails 객체로 반환
         return new User(user.getUserId(), user.getUserPwd(),
-//                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole())));
-                  Collections.singletonList(new SimpleGrantedAuthority("ROLE_user")));
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getUserRole().getValue())));
     }
 }
