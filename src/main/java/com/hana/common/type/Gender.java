@@ -7,8 +7,8 @@ import java.util.Arrays;
 
 public enum Gender {
 
-    Male("male"),
-    Female("female");
+    Male("남자"),
+    Female("여자");
 
     private String value;
 
@@ -20,9 +20,9 @@ public enum Gender {
         return value;
     }
 
-    public static Gender getGender(String geder) {
+    public static Gender getGender(String gender) {
         return Arrays.stream(Gender.values())
-                .filter(r -> r.getValue().equals(geder))
+                .filter(r -> r.getValue().equals(gender))
                 .findAny()
                 .orElseThrow(() -> new RoleNotFoundException(ErrorCode.GENDER_NOT_FOUND));
     }
