@@ -21,6 +21,9 @@ public class Account extends BaseEntity {
     @Column(length = 20, name = "account_num")
     private String accountNum;
 
+    @Column(length = 20)
+    private String accoundCard;
+
     private Long accountBalance;
 
     @Column(length = 20)

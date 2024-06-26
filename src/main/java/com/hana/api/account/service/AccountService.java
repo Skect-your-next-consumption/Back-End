@@ -22,7 +22,8 @@ public class AccountService {
     public Account createAccount(String accountName, Long accountBalance){
 
         Account account = Account.builder()
-                .accountNum(generateRandomString())
+                .accountNum(generateAccountNum())
+                .accoundCard(generateCardNum())
                 .accountName(accountName)
                 .accountBalance(accountBalance)
                 .build();
@@ -35,12 +36,32 @@ public class AccountService {
         return account;
     }
 
-    public static String generateRandomString() {
+    public static String generateAccountNum() {
         Random random = new Random();
         StringBuilder sb = new StringBuilder("110");
 
         for (int i = 0; i < 9; i++) {
             int digit = random.nextInt(10);  // 0부터 9까지의 랜덤 숫자 생성
+
+            if(i == 0 | i == 3){
+                sb.append('-');
+            }
+            sb.append(digit);
+        }
+
+        return sb.toString();
+    }
+
+    public static String generateCardNum() {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 16; i++) {
+            int digit = random.nextInt(10);  // 0부터 9까지의 랜덤 숫자 생성
+
+            if(i != 0 && (i % 4) == 0){
+                sb.append('-');
+            }
             sb.append(digit);
         }
 
