@@ -1,5 +1,6 @@
 package com.hana.config.security.jwt;
 
+import com.hana.api.user.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -23,6 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String BEARER_TYPE = "Bearer";
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final CustomUserDetailsService customUserDetailsService;
 
 
     @Override
@@ -30,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         log.info("------------------- Start JwtAuthenticationFilter -------------------");
 
         // 1. Request Header 에서 JWT 토큰 추출
-        String token = resolveToken((HttpServletRequest) request);
+        String token = resolveToken(request);
         log.info("[JwtAuthenticationFilter] AccessToken 값 추출 완료: {}", token);
 
         // 2. validateToken 으로 토큰 유효성 검사
@@ -55,7 +60,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // getName은 사용자의 ID를 의미 함
             log.info("Start JwtAuthenticationFilter -------------------------------------------6 "+authentication.getName());
             log.info("Start JwtAuthenticationFilter -------------------------------------------6 "+authentication.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            if (authentication.getName() != null){
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
 
         // 접근 권한 없으면 AccessDeniedException 발생

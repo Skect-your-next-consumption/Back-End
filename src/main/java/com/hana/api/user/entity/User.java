@@ -4,9 +4,14 @@ import com.hana.api.account.entity.Account;
 import com.hana.api.challenge.entity.ChallengeUsers;
 import com.hana.api.diary.entity.PictureDiary;
 import com.hana.common.entity.BaseEntity;
+import com.hana.common.type.Gender;
+import com.hana.common.type.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,6 +19,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
+@DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -32,23 +38,27 @@ public class User extends BaseEntity {
     @Column(name = "user_name", length = 25, nullable = false)
     private String userName;
 
-    @Column(name = "user_gender", length = 25)
-    private String userGender;
+    @Enumerated(EnumType.STRING)
+    private Gender userGender;
 
     @Column(name = "user_birth")
-    private LocalDateTime userBirth;
+    private LocalDate userBirth;
 
     @Column(name = "user_phone", length = 30)
     private String userPhone;
 
     @Column(name = "user_credit")
-    private Integer userCredit;
+    @ColumnDefault("5")
+    private Integer userCredit=5;
 
     @Column(name = "user_address", length = 100)
     private String userAddress;
 
-    @Column(name = "user_profile", length = 100)
+    @Column(name = "user_profile", length = 300)
     private String userProfile;
+
+    @Enumerated(EnumType.STRING)
+    private Role userRole;
 
     @OneToOne
     @JoinColumn(name = "account_num")

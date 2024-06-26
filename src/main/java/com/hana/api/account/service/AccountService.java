@@ -35,7 +35,7 @@ public class AccountService {
         accountRepository.save(account);
         return account;
     }
-
+    
     public static String generateAccountNum() {
         Random random = new Random();
         StringBuilder sb = new StringBuilder("110");
