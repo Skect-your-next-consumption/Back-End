@@ -22,8 +22,6 @@ public class SignupRequest {
     private LocalDate userBirth;
     @Schema(description = "유저 전화번호", example = "01034333292")
     private String userPhone;
-    @Schema(description = "유저의 그림일기 크레딧", example = "3")
-    private Integer userCredit;
     @Schema(description = "유저의 주소", example = "성남시 분당구 미금로 177")
     private String userAddress;
     @Schema(description = "유저 권한", example = "user")
