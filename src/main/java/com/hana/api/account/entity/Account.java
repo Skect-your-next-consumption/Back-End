@@ -21,9 +21,6 @@ public class Account extends BaseEntity {
     @Column(length = 20, name = "account_num")
     private String accountNum;
 
-    @Column(length = 20)
-    private String accoundCard;
-
     private Long accountBalance;
 
     @Column(length = 20)
@@ -34,6 +31,10 @@ public class Account extends BaseEntity {
 
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
+
+    @OneToOne
+    @JoinColumn(name = "card_num")
+    private Card card;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AccountAnalysis> accountAnalyses;
