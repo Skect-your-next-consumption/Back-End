@@ -48,7 +48,7 @@ public class User extends BaseEntity {
     private String userPhone;
 
     @Column(name = "user_credit")
-    @ColumnDefault("0")
+    @ColumnDefault("5")
     private Integer userCredit=0;
 
     @Column(name = "user_address", length = 100)
