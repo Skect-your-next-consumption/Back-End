@@ -10,6 +10,7 @@ import com.hana.api.user.dto.response.UserInfoResponseDto;
 import com.hana.api.user.entity.User;
 import com.hana.api.user.repository.UserRepository;
 import com.hana.common.exception.user.NameDuplicateException;
+import com.hana.common.exception.user.UserNotFoundException;
 import com.hana.common.response.Response;
 import com.hana.common.exception.ErrorCode;
 import com.hana.common.type.Gender;
@@ -105,7 +106,6 @@ public class UserService {
     }
 
     public ResponseEntity<?> myInfo(User user){
-
         MyInfoResponseDto myInfoResponseDto = MyInfoResponseDto.builder()
                 .userName(user.getUserName())
                 .userCredit(user.getUserCredit())
@@ -114,6 +114,7 @@ public class UserService {
 
         return  response.success(myInfoResponseDto, HttpStatus.OK);
     }
+
 
     public ResponseEntity<?> myPage(User user){
 

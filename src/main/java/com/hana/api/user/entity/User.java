@@ -49,7 +49,7 @@ public class User extends BaseEntity {
 
     @Column(name = "user_credit")
     @ColumnDefault("5")
-    private Integer userCredit=0;
+    private Integer userCredit=5;
 
     @Column(name = "user_address", length = 100)
     private String userAddress;

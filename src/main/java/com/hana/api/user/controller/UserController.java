@@ -4,7 +4,6 @@ import com.hana.api.user.dto.request.LoginRequest;
 import com.hana.api.user.dto.request.SignupRequest;
 import com.hana.api.user.entity.User;
 import com.hana.api.user.service.UserService;
-import com.hana.common.response.Response;
 import com.hana.common.type.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j

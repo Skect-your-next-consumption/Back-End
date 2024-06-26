@@ -3,8 +3,6 @@ package com.hana.api.challenge.controller;
 
 import com.hana.api.challenge.dto.request.ChallengeCreateRequest;
 import com.hana.api.challenge.service.ChallengeService;
-import com.hana.api.user.dto.request.SignupRequest;
-import com.hana.api.user.service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

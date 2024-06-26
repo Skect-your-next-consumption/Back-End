@@ -35,6 +35,7 @@ import java.util.List;
 public class SecurityConfig{
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -75,7 +76,7 @@ public class SecurityConfig{
                 .httpBasic(AbstractHttpConfigurer::disable)
 
                 //JwtAuthFilter를 UsernamePasswordAuthenticationFilter 앞에 추가
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailsService), UsernamePasswordAuthenticationFilter.class)
 
 //                .exceptionHandling((exceptionHandling) -> exceptionHandling
 //                        .authenticationEntryPoint(authenticationEntryPoint)
