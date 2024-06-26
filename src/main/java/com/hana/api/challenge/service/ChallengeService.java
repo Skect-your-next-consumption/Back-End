@@ -66,12 +66,20 @@ public class ChallengeService {
             ChallengeUsers challengeUsers =
                     ChallengeUsers.builder()
                             .id(challengeUsersId)
-                            .challenge(inserted)
-                            .user(user.get())
+//                            .challenge(inserted)
+//                            .user(user.get())
                             .build();
             challengeUsersRepository.save(challengeUsers);
         }
         return response.success("챌린지 생성 완료");
+    }
+
+    public ResponseEntity<?> getOngoingChallenges(){
+        return response.success(challengeRepository.findAll());
+    }
+
+    public ResponseEntity<?> getHotChallenges(){
+        return response.success(challengeRepository.findTop3ByChallengeCategory().toArray(),HttpStatus.OK);
     }
 
 }

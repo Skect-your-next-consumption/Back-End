@@ -34,6 +34,6 @@ public class Challenge extends BaseEntity {
 
     private Integer challengeTargetAmount;
 
-    @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ChallengeUsers> challengeUsers;
+//    @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<ChallengeUsers> challengeUsers;
 }

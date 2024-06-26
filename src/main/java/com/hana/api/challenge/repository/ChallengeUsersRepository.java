@@ -6,6 +6,8 @@ import com.hana.common.type.State;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ChallengeUsersRepository extends JpaRepository<ChallengeUsers, ChallengeUsersId> {
     Integer countByUserAndState(User user, State state);

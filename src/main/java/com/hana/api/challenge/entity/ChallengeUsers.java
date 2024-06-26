@@ -24,11 +24,11 @@ public class ChallengeUsers extends BaseEntity {
     @MapsId("userCode")
     @JoinColumn(name = "user_code", referencedColumnName = "user_code")
     private User user;
-
-    @ManyToOne
-    @MapsId("challengeCode")
-    @JoinColumn(name = "challenge_code", referencedColumnName = "challenge_code")
-    private Challenge challenge;
+//
+//    @ManyToOne
+//    @MapsId("challengeCode")
+//    @JoinColumn(name = "challenge_code", referencedColumnName = "challenge_code")
+//    private Challenge challenge;
 
     private Boolean challengeUserResult;
 

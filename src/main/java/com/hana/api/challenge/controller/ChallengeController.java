@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,5 +26,16 @@ public class ChallengeController {
     @PostMapping()
     public ResponseEntity<?> create(@RequestBody ChallengeCreateRequest challengeCreateRequest) {
         return challengeService.create(challengeCreateRequest);
+    }
+    @Operation(summary = "진행중인 챌린지 조회", description = "진행중인 챌린지를 조회하는 API 입니다.")
+    @RequestMapping("/ongoing")
+    public ResponseEntity<?> getOngoingChallenges(Authentication authentication) {
+        return challengeService.getOngoingChallenges();
+    }
+
+    @Operation(summary = "챌린지 수 상위 3개 정보 조회", description = "챌린지 수 상위 3개 정보를 조회하는 API 입니다.")
+    @RequestMapping("/hot")
+    public ResponseEntity<?> getHotChallenges() {
+        return challengeService.getHotChallenges();
     }
 }
