@@ -3,8 +3,11 @@ package com.hana.config.security.jwt;
 //import com.hana.api.auth.dto.response.AuthResponseDto;
 //import com.hana.api.user.dto.response.UserResponseDto;
 import com.hana.api.user.dto.response.LoginResponseDto;
+import com.hana.api.user.service.CustomUserDetails;
+import com.hana.api.user.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,16 +29,19 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
 
+    private final CustomUserDetailsService customUserDetailsService;
+
     // JWT 토큰 구성에 필요한 상수들
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 30 * 60 * 1000L;              // 30분
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 7 * 24 * 60 * 60 * 1000L;    // 7일
 
-    private final Key key;
+    private Key key;
 
     // 생성자를 통해 시크릿 키를 디코딩하고 설정
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
 
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         log.info("[kyeBytes] 문자열 Byte 형식으로 변환 : {}", keyBytes);
@@ -104,8 +110,10 @@ public class JwtTokenProvider {
                         .collect(Collectors.toList());
 
         // UserDetails 객체를 만들어서 Authentication 리턴
-        UserDetails principal = new User(claims.getSubject(), "", authorities);
-        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+        // UserDetails principal = new User(claims.getSubject(), "", authorities);
+
+        CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(getUsername(accessToken));
+        return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
 
     // 토큰 정보를 검증하는 메서드
@@ -123,6 +131,11 @@ public class JwtTokenProvider {
             log.info("JWT claims string is empty.", e);
         }
         return false;
+    }
+
+    // 토큰에서 사용자 정보 추출
+    public String getUsername(String accessToken) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getSubject();
     }
 
     // 토큰을 파싱하여 클레임을 가져오는 메서드

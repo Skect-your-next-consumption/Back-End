@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -22,7 +23,8 @@ public class BaseEntity {
     protected LocalDateTime createdDate;
 
     @Enumerated(EnumType.STRING)
-    protected State state;
+    @ColumnDefault("'ACTIVE'")
+    private State state;
 
     @PrePersist
     public void prePersist() {

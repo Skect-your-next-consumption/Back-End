@@ -35,6 +35,7 @@ public class AccountService {
         return account;
     }
 
+
     public static String generateRandomString() {
         Random random = new Random();
         StringBuilder sb = new StringBuilder("110");

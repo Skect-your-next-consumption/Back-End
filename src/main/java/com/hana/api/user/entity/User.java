@@ -8,6 +8,8 @@ import com.hana.common.type.Gender;
 import com.hana.common.type.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,6 +19,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
+@DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -45,7 +48,8 @@ public class User extends BaseEntity {
     private String userPhone;
 
     @Column(name = "user_credit")
-    private Integer userCredit;
+    @ColumnDefault("5")
+    private Integer userCredit=5;
 
     @Column(name = "user_address", length = 100)
     private String userAddress;
