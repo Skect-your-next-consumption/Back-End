@@ -1,9 +1,12 @@
 package com.hana.api.user.service;
 
 import com.hana.api.account.service.AccountService;
+import com.hana.api.challenge.repository.ChallengeUsersRepository;
 import com.hana.api.user.dto.request.LoginRequest;
 import com.hana.api.user.dto.request.SignupRequest;
 import com.hana.api.user.dto.response.LoginResponseDto;
+import com.hana.api.user.dto.response.MyInfoResponseDto;
+import com.hana.api.user.dto.response.UserInfoResponseDto;
 import com.hana.api.user.entity.User;
 import com.hana.api.user.repository.UserRepository;
 import com.hana.common.exception.user.NameDuplicateException;
@@ -11,6 +14,7 @@ import com.hana.common.response.Response;
 import com.hana.common.exception.ErrorCode;
 import com.hana.common.type.Gender;
 import com.hana.common.type.Role;
+import com.hana.common.type.State;
 import com.hana.common.util.ImageUploader;
 import com.hana.common.util.UuidGenerator;
 import com.hana.config.security.jwt.JwtTokenProvider;
@@ -22,6 +26,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +39,7 @@ public class UserService {
     private final AccountService accountService;
     private final UserRepository userRepository;
     private final ImageUploader imageUploader;
+    private final ChallengeUsersRepository challengeUsersRepository;
 
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
@@ -58,7 +64,6 @@ public class UserService {
                         .userGender(Gender.getGender(signupRequest.getUserGender()))
                         .userBirth(signupRequest.getUserBirth())
                         .userPhone(signupRequest.getUserPhone())
-                        .userCredit(signupRequest.getUserCredit())
                         .userAddress(signupRequest.getUserAddress())
                         .userRole(Role.getRole(signupRequest.getUserRole()))
                         .userProfile(imageUrl)
@@ -97,5 +102,32 @@ public class UserService {
         } catch (AuthenticationException e) {
             return response.fail(ErrorCode.USER_UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    public ResponseEntity<?> myInfo(User user){
+
+        MyInfoResponseDto myInfoResponseDto = MyInfoResponseDto.builder()
+                .userName(user.getUserName())
+                .userCredit(user.getUserCredit())
+                .userChallenges(challengeUsersRepository.countByUserAndState(user, State.Active))
+                .build();
+
+        return  response.success(myInfoResponseDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> myPage(User user){
+
+        UserInfoResponseDto userInfoResponseDto = UserInfoResponseDto.builder()
+                .userName(user.getUserName())
+                .userGender(user.getUserGender().getValue())
+                .userBirth(user.getUserBirth())
+                .userPhone(user.getUserPhone())
+                .userCredit(user.getUserCredit())
+                .userAddress(user.getUserAddress())
+                .userProfileUrl(user.getUserProfile())
+                .userAccountNum(user.getAccount().getAccountNum())
+                .build();
+
+        return  response.success(userInfoResponseDto, HttpStatus.OK);
     }
 }
