@@ -32,6 +32,10 @@ public class Account extends BaseEntity {
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
 
+    @OneToOne
+    @JoinColumn(name = "card_num")
+    private Card card;
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AccountAnalysis> accountAnalyses;
 }
