@@ -8,10 +8,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 @Setter
 public class LoginRequest {
 
-    private String user_id;  // 사용자 이름 또는 ID
-    private String user_pwd;  // 비밀번호
+    private String userId;  // 사용자 이름 또는 ID
+    private String userPwd;  // 비밀번호
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
-        return new UsernamePasswordAuthenticationToken(user_id, user_pwd);
+        return new UsernamePasswordAuthenticationToken(userId, userPwd);
     }
 }

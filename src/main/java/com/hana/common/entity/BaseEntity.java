@@ -20,9 +20,16 @@ public class BaseEntity {
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime createdDate;
+    protected LocalDateTime createdDate;
 
     @Enumerated(EnumType.STRING)
     @ColumnDefault("'ACTIVE'")
     private State state;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.state == null) {
+            this.state = State.Active;
+        }
+    }
 }
