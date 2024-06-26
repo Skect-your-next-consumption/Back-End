@@ -5,6 +5,7 @@ package com.hana.config.security;
 //import com.hana.config.security.jwt.JwtAuthenticationFilter;
 //import com.hana.config.security.jwt.JwtTokenProvider;
 
+import com.hana.api.user.service.CustomUserDetailsService;
 import com.hana.config.security.jwt.JwtAuthenticationFilter;
 import com.hana.config.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
