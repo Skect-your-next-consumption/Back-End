@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
+@Table(name = "accounts")
 @Data
 @Builder
 @NoArgsConstructor
@@ -26,12 +27,21 @@ public class Account extends BaseEntity {
     @Column(length = 20)
     private String accountName;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<AccountHistory> accountHistories;
+//    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<AccountHistory> accountHistories;
 
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
 
+    @OneToOne
+    @JoinColumn(name = "card_num")
+    private Card card;
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AccountAnalysis> accountAnalyses;
+
+    public Long updateAccountBalance(Long amount){
+        this.accountBalance -= amount;
+        return this.accountBalance;
+    }
 }

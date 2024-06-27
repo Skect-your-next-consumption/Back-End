@@ -38,6 +38,9 @@ public class User extends BaseEntity {
     @Column(name = "user_name", length = 25, nullable = false)
     private String userName;
 
+    @Column(name = "user_name_eng", length = 25, nullable = false)
+    private String userNameEng;
+
     @Enumerated(EnumType.STRING)
     private Gender userGender;
 
@@ -69,4 +72,8 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ChallengeUsers> challengeUsers;
+
+    public void updateProfile(String ImageUrl){
+        this.userProfile = ImageUrl;
+    }
 }

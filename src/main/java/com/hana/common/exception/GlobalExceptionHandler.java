@@ -1,6 +1,7 @@
 package com.hana.common.exception;
 
 import com.hana.common.exception.account.AccountNumDuplicateException;
+import com.hana.common.exception.account.PaymentFailedException;
 import com.hana.common.exception.s3.S3EssayUploadException;
 import com.hana.common.exception.type.GenderNotFoundException;
 import com.hana.common.exception.type.RoleNotFoundException;
@@ -68,6 +69,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(S3EssayUploadException.class)
     public ResponseEntity<?> handleS3EssayUploadException(S3EssayUploadException ex){
+        return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(PaymentFailedException.class)
+    public ResponseEntity<?> handlePaymentFailedException(PaymentFailedException ex){
         return response.fail(ex.getErrorCode(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

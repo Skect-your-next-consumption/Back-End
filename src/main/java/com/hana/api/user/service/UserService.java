@@ -3,14 +3,14 @@ package com.hana.api.user.service;
 import com.hana.api.account.service.AccountService;
 import com.hana.api.challenge.repository.ChallengeUsersRepository;
 import com.hana.api.user.dto.request.LoginRequest;
-import com.hana.api.user.dto.request.SignupRequest;
+import com.hana.api.user.dto.request.ProfileRequest;
+import com.hana.api.user.dto.request.SignUpRequest;
 import com.hana.api.user.dto.response.LoginResponseDto;
 import com.hana.api.user.dto.response.MyInfoResponseDto;
-import com.hana.api.user.dto.response.UserInfoResponseDto;
+import com.hana.api.user.dto.response.MyPageResponseDto;
 import com.hana.api.user.entity.User;
 import com.hana.api.user.repository.UserRepository;
 import com.hana.common.exception.user.NameDuplicateException;
-import com.hana.common.exception.user.UserNotFoundException;
 import com.hana.common.response.Response;
 import com.hana.common.exception.ErrorCode;
 import com.hana.common.type.Gender;
@@ -27,7 +27,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +47,7 @@ public class UserService {
     private final Response response;
 
 
-    public ResponseEntity<?> signUp(SignupRequest signupRequest){
+    public ResponseEntity<?> signUp(SignUpRequest signupRequest){
 
         String imageUrl = imageUploader.uploadImage(signupRequest.getImage());
 
@@ -62,6 +61,7 @@ public class UserService {
                         .userId(signupRequest.getUserId())
                         .userPwd(passwordEncoder.encode(signupRequest.getUserPwd()))
                         .userName(signupRequest.getUserName())
+                        .userNameEng(signupRequest.getUserNameEng())
                         .userGender(Gender.getGender(signupRequest.getUserGender()))
                         .userBirth(signupRequest.getUserBirth())
                         .userPhone(signupRequest.getUserPhone())
@@ -105,7 +105,7 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<?> myInfo(User user){
+    public ResponseEntity<?> getMyInfo(User user){
         MyInfoResponseDto myInfoResponseDto = MyInfoResponseDto.builder()
                 .userName(user.getUserName())
                 .userCredit(user.getUserCredit())
@@ -116,9 +116,9 @@ public class UserService {
     }
 
 
-    public ResponseEntity<?> myPage(User user){
+    public ResponseEntity<?> getMyPage(User user){
 
-        UserInfoResponseDto userInfoResponseDto = UserInfoResponseDto.builder()
+        MyPageResponseDto myPageResponseDto = MyPageResponseDto.builder()
                 .userName(user.getUserName())
                 .userGender(user.getUserGender().getValue())
                 .userBirth(user.getUserBirth())
@@ -126,9 +126,19 @@ public class UserService {
                 .userCredit(user.getUserCredit())
                 .userAddress(user.getUserAddress())
                 .userProfileUrl(user.getUserProfile())
-                .userAccountNum(user.getAccount().getAccountNum())
                 .build();
 
-        return  response.success(userInfoResponseDto, HttpStatus.OK);
+        return  response.success(myPageResponseDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> updateProfile(User user, ProfileRequest profileRequest){
+
+
+        String imageUrl = imageUploader.updateImage(user.getUserProfile(), profileRequest.getImage());
+
+        user.updateProfile(imageUrl);
+        userRepository.save(user);
+
+        return response.success("프로필 이미지 수정 완료");
     }
 }

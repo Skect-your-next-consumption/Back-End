@@ -58,6 +58,30 @@ public class ImageUploader {
         return amazonS3.getUrl(bucket, s3FileName).toString();
     }
 
+    public String updateImage(String profileUrl, MultipartFile image) {
+
+        deleteFileFromBucket(decodeURL(profileUrl));
+
+        // s3에 저장할 파일명 생성
+        String filename = image.getOriginalFilename();
+        String s3FileName = "profile/" + UUID.randomUUID() + "_" + filename;
+
+        // s3에 저장할 파일의 메타데이터 생성
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(image.getSize());
+        metadata.setContentType(image.getContentType());
+
+        // s3 스토리지에 image 업로드
+        try {
+            amazonS3.putObject(bucket, s3FileName, image.getInputStream(), metadata);
+        } catch (Exception e) {
+            // image 업로드 에러 발생
+            throw new S3EssayUploadException(ErrorCode.IMAGE_UPLOAD_FAIL);
+        }
+        // 업로드한 image의 s3 스토리지 경로
+        return amazonS3.getUrl(bucket, s3FileName).toString();
+    }
+
     public void deleteFileFromBucket(String fileUrl) {
         String decodeURL = decodeURL(fileUrl);
         boolean fileExists = amazonS3.doesObjectExist(bucket, decodeURL);

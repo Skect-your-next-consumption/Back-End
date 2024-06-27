@@ -31,6 +31,7 @@ public enum ErrorCode {
 
     // Account
     ACCOUNT_NUM_DUPLICATION("A001", "중복된 계좌번호입니다."),
+    PAYMENT_FAILED("A002", "결제 실패."),
 
     // S3
     IMAGE_UPLOAD_FAIL("S001", "이미지 업로드에 실패했습니다."),
