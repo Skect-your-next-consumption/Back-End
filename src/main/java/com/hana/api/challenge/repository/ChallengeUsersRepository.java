@@ -1,4 +1,5 @@
 package com.hana.api.challenge.repository;
+import com.hana.api.challenge.dto.query.OngoingChallengeInterface;
 import com.hana.api.challenge.entity.ChallengeUsers;
 import com.hana.api.challenge.entity.ChallengeUsersId;
 import com.hana.api.user.entity.User;
@@ -10,5 +11,7 @@ import java.util.List;
 
 @Repository
 public interface ChallengeUsersRepository extends JpaRepository<ChallengeUsers, ChallengeUsersId> {
-    Integer countByUserAndState(User user, State state);
+    List<OngoingChallengeInterface> findAllChallengeUsersByUserAndChallengeBase_State(User user,State state);
+//    List<OngoingChallengeInterface> findAllChallengeUsersByUserAndState(User user, State state);
+    Integer countByUserAndChallengeBase_State(User user, State state);
 }

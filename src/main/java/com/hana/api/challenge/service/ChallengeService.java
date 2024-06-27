@@ -10,6 +10,7 @@ import com.hana.api.user.entity.User;
 import com.hana.api.user.repository.UserRepository;
 import com.hana.common.exception.ErrorCode;
 import com.hana.common.response.Response;
+import com.hana.common.type.State;
 import com.hana.common.util.UuidGenerator;
 import com.hana.config.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -60,20 +61,24 @@ public class ChallengeService {
             ChallengeUsers challengeUsers =
                     ChallengeUsers.builder()
                             .id(challengeUsersId)
-//                            .challenge(inserted)
-//                            .user(user.get())
+                            .challenge(inserted)
+                            .user(user.get())
+                            .challengeBase(inserted)
                             .build();
             challengeUsersRepository.save(challengeUsers);
         }
         return response.success("챌린지 생성 완료");
     }
 
-    public ResponseEntity<?> getOngoingChallenges(){
-        return response.success(challengeRepository.findAll());
+    public ResponseEntity<?> getOngoingChallenges(User user){
+        return response.success(challengeUsersRepository.findAllChallengeUsersByUserAndChallengeBase_State(user,State.Active));
     }
 
     public ResponseEntity<?> getHotChallenges(){
         return response.success(challengeRepository.findTop3ByChallengeCategory().toArray(),HttpStatus.OK);
     }
 
+    public ResponseEntity<?> getDoneChallenges(User user){
+        return response.success(challengeUsersRepository.findAllChallengeUsersByUserAndChallengeBase_State(user,State.Finish));
+    }
 }

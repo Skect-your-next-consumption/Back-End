@@ -52,12 +52,13 @@ public class User extends BaseEntity {
 
     @Column(name = "user_credit")
     @ColumnDefault("5")
-    private Integer userCredit=5;
+    private Integer userCredit;
 
     @Column(name = "user_address", length = 100)
     private String userAddress;
 
     @Column(name = "user_profile", length = 300)
+    @ColumnDefault("https://sync-bucket1.s3.ap-northeast-2.amazonaws.com/profile/default.png")
     private String userProfile;
 
     @Enumerated(EnumType.STRING)
@@ -67,13 +68,15 @@ public class User extends BaseEntity {
     @JoinColumn(name = "account_num")
     private Account account;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PictureDiary> pictureDiaries;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<PictureDiary> pictureDiaries;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ChallengeUsers> challengeUsers;
 
     public void updateProfile(String ImageUrl){
         this.userProfile = ImageUrl;
     }
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<ChallengeUsers> challengeUsers;
+
 }

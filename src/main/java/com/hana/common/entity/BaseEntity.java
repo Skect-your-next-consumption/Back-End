@@ -19,10 +19,11 @@ import java.time.LocalDateTime;
 public class BaseEntity {
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(updatable = false, name = "created_date")
     protected LocalDateTime createdDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "state")
     @ColumnDefault("'ACTIVE'")
     private State state;
 
