@@ -49,8 +49,6 @@ public class UserService {
 
     public ResponseEntity<?> signUp(SignUpRequest signupRequest){
 
-        String imageUrl = imageUploader.uploadImage(signupRequest.getImage());
-
         if(userRepository.existsByUserId(signupRequest.getUserId())){
             throw new NameDuplicateException(ErrorCode.USER_NAME_DUPLICATION);
         }
@@ -67,7 +65,6 @@ public class UserService {
                         .userPhone(signupRequest.getUserPhone())
                         .userAddress(signupRequest.getUserAddress())
                         .userRole(Role.getRole(signupRequest.getUserRole()))
-                        .userProfile(imageUrl)
                         .account(accountService.createAccount(signupRequest.getAccountName(), signupRequest.getAccountBalance()))
                         .build();
 
@@ -109,7 +106,7 @@ public class UserService {
         MyInfoResponseDto myInfoResponseDto = MyInfoResponseDto.builder()
                 .userName(user.getUserName())
                 .userCredit(user.getUserCredit())
-                .userChallenges(challengeUsersRepository.countByUserAndState(user, State.Active))
+                .userChallenges(challengeUsersRepository.countByUserAndChallengeBase_State(user, State.Active))
                 .build();
 
         return  response.success(myInfoResponseDto, HttpStatus.OK);
