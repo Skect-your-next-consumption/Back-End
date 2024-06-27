@@ -1,10 +1,9 @@
 package com.hana.api.user.dto.response;
 
+import com.hana.api.account.dto.response.CardResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDate;
 
 @Builder
 @Getter
@@ -13,7 +12,4 @@ public class MyInfoResponseDto {
     private String userName;
     private Integer userCredit;
     private Integer userChallenges;
-    private String userNameEng;
-    private String accountNum;
-    private CardResponseDto card;
 }
