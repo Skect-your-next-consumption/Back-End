@@ -39,4 +39,9 @@ public class Account extends BaseEntity {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AccountAnalysis> accountAnalyses;
+
+    public Long updateAccountBalance(Long amount){
+        this.accountBalance -= amount;
+        return this.accountBalance;
+    }
 }

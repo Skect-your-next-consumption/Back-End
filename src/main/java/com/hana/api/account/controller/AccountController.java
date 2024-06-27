@@ -1,5 +1,6 @@
 package com.hana.api.account.controller;
 
+import com.hana.api.account.dto.request.AccountLogRequest;
 import com.hana.api.account.service.AccountService;
 import com.hana.api.user.dto.request.LoginRequest;
 import com.hana.api.user.entity.User;
@@ -26,7 +27,14 @@ public class AccountController {
         return accountService.getMyAccount(user);
     }
 
-    @Operation(summary = "계좌 내역 조회", description = "계좌 내역 조회를 위한 API 입니다.")
+    @Operation(summary = "결제 내역 생성", description = "결제 내역 생성을 위한 API 입니다.")
+    @PostMapping("/logs")
+    public ResponseEntity<?> createMyAccountLogs(@CurrentUser User user,
+                                                 @RequestBody AccountLogRequest accountLogRequest) {
+        return accountService.createMyAccountLogs(user, accountLogRequest);
+    }
+
+    @Operation(summary = "결제 내역 조회", description = "결제 내역 조회를 위한 API 입니다.")
     @GetMapping("/logs")
     public ResponseEntity<?> getMyAccountLogs(@CurrentUser User user) {
         return accountService.getMyAccountLogs(user);

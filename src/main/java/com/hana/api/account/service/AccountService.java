@@ -1,14 +1,19 @@
 package com.hana.api.account.service;
 
+import com.hana.api.account.dto.request.AccountLogRequest;
 import com.hana.api.account.dto.response.AccountResponseDto;
 import com.hana.api.account.entity.Account;
+import com.hana.api.account.entity.AccountHistory;
 import com.hana.api.account.entity.Card;
+import com.hana.api.account.repository.AccountHistoryRepository;
 import com.hana.api.account.repository.AccountRepository;
 import com.hana.api.account.repository.CardRepository;
 import com.hana.api.user.entity.User;
 import com.hana.common.exception.ErrorCode;
 import com.hana.common.exception.account.AccountNumDuplicateException;
+import com.hana.common.exception.account.PaymentFailedException;
 import com.hana.common.response.Response;
+import com.hana.common.util.UuidGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +28,36 @@ import java.util.Random;
 public class AccountService {
 
     private final AccountRepository accountRepository;
+    private final AccountHistoryRepository accountHistoryRepository;
     private final CardRepository cardRepository;
     private final Response response;
 
     public ResponseEntity<?> getMyAccount(User user){
         AccountResponseDto accountResponseDto = new AccountResponseDto(user.getAccount(), user.getUserNameEng());
         return response.success(accountResponseDto);
+    }
+
+    public ResponseEntity<?> createMyAccountLogs(User user, AccountLogRequest accountLogRequest){
+
+        Account account = user.getAccount();
+
+        try {
+            AccountHistory accountHistory = AccountHistory.builder()
+                    .historyCode(UuidGenerator.generateUuid())
+                    .account(account)
+                    .historyAmount(accountLogRequest.getHistoryAmount())
+                    .historyOpposit(accountLogRequest.getHistoryOpposit())
+                    .historyBusinessCode(accountLogRequest.getHistoryBusinessCode())
+                    .historyBeforeBalance(account.getAccountBalance())
+                    .historyAfterBalance(account.updateAccountBalance(accountLogRequest.getHistoryAmount()))
+                    .build();
+
+            accountRepository.save(account);
+            accountHistoryRepository.save(accountHistory);
+        } catch(Exception e){
+            throw new PaymentFailedException(ErrorCode.PAYMENT_FAILED);
+        }
+        return response.success("결제 내역 생성 완료");
     }
 
     public ResponseEntity<?> getMyAccountLogs(User user){
