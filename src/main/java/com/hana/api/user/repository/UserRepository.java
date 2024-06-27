@@ -1,6 +1,5 @@
 package com.hana.api.user.repository;
 
-import com.hana.api.user.dto.request.SignupRequest;
 import com.hana.api.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

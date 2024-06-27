@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class SignupRequest {
+public class SignUpRequest {
     @Schema(description = "유저 로그인 아이디", example = "gyun1712")
     private String userId;
     @Schema(description = "유저 패스워드", example = "1234!!")

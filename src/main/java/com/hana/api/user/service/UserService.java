@@ -3,7 +3,8 @@ package com.hana.api.user.service;
 import com.hana.api.account.service.AccountService;
 import com.hana.api.challenge.repository.ChallengeUsersRepository;
 import com.hana.api.user.dto.request.LoginRequest;
-import com.hana.api.user.dto.request.SignupRequest;
+import com.hana.api.user.dto.request.ProfileRequest;
+import com.hana.api.user.dto.request.SignUpRequest;
 import com.hana.api.user.dto.response.LoginResponseDto;
 import com.hana.api.user.dto.response.MyInfoResponseDto;
 import com.hana.api.user.dto.response.MyPageResponseDto;
@@ -46,7 +47,7 @@ public class UserService {
     private final Response response;
 
 
-    public ResponseEntity<?> signUp(SignupRequest signupRequest){
+    public ResponseEntity<?> signUp(SignUpRequest signupRequest){
 
         String imageUrl = imageUploader.uploadImage(signupRequest.getImage());
 
@@ -103,7 +104,7 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<?> myInfo(User user){
+    public ResponseEntity<?> getMyInfo(User user){
         MyInfoResponseDto myInfoResponseDto = MyInfoResponseDto.builder()
                 .userName(user.getUserName())
                 .userCredit(user.getUserCredit())
@@ -117,7 +118,7 @@ public class UserService {
     }
 
 
-    public ResponseEntity<?> myPage(User user){
+    public ResponseEntity<?> getMyPage(User user){
 
         MyPageResponseDto myPageResponseDto = MyPageResponseDto.builder()
                 .userName(user.getUserName())
@@ -132,5 +133,16 @@ public class UserService {
                 .build();
 
         return  response.success(myPageResponseDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> updateProfile(User user, ProfileRequest profileRequest){
+
+
+        String imageUrl = imageUploader.updateImage(user.getUserProfile(), profileRequest.getImage());
+
+        user.updateProfile(imageUrl);
+        userRepository.save(user);
+
+        return response.success("프로필 이미지 수정 완료");
     }
 }
