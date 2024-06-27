@@ -61,6 +61,7 @@ public class UserService {
                         .userId(signupRequest.getUserId())
                         .userPwd(passwordEncoder.encode(signupRequest.getUserPwd()))
                         .userName(signupRequest.getUserName())
+                        .userNameEng(signupRequest.getUserNameEng())
                         .userGender(Gender.getGender(signupRequest.getUserGender()))
                         .userBirth(signupRequest.getUserBirth())
                         .userPhone(signupRequest.getUserPhone())
@@ -109,9 +110,6 @@ public class UserService {
                 .userName(user.getUserName())
                 .userCredit(user.getUserCredit())
                 .userChallenges(challengeUsersRepository.countByUserAndState(user, State.Active))
-                .userNameEng(user.getUserNameEng())
-                .accountNum(user.getAccount().getAccountNum())
-                .card(user.getAccount().getCard().getCardResponseDto())
                 .build();
 
         return  response.success(myInfoResponseDto, HttpStatus.OK);
@@ -128,8 +126,6 @@ public class UserService {
                 .userCredit(user.getUserCredit())
                 .userAddress(user.getUserAddress())
                 .userProfileUrl(user.getUserProfile())
-                .accountNum(user.getAccount().getAccountNum())
-                .card(user.getAccount().getCard().getCardResponseDto())
                 .build();
 
         return  response.success(myPageResponseDto, HttpStatus.OK);

@@ -16,6 +16,8 @@ public class SignUpRequest {
     private String userPwd;
     @Schema(description = "유저 이름", example = "김서윤")
     private String userName;
+    @Schema(description = "유저 영문이름", example = "KIM SEOYOON")
+    private String userNameEng;
     @Schema(description = "유저 성별", example = "여자")
     private String userGender;
     @Schema(description = "유저 생년월일", example = "1998-08-28")

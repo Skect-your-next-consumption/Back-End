@@ -1,13 +1,17 @@
 package com.hana.api.account.service;
 
+import com.hana.api.account.dto.response.AccountResponseDto;
 import com.hana.api.account.entity.Account;
 import com.hana.api.account.entity.Card;
 import com.hana.api.account.repository.AccountRepository;
 import com.hana.api.account.repository.CardRepository;
+import com.hana.api.user.entity.User;
 import com.hana.common.exception.ErrorCode;
 import com.hana.common.exception.account.AccountNumDuplicateException;
+import com.hana.common.response.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,6 +24,16 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final CardRepository cardRepository;
+    private final Response response;
+
+    public ResponseEntity<?> getMyAccount(User user){
+        AccountResponseDto accountResponseDto = new AccountResponseDto(user.getAccount(), user.getUserNameEng());
+        return response.success(accountResponseDto);
+    }
+
+    public ResponseEntity<?> getMyAccountLogs(User user){
+        return response.success();
+    }
 
     public Account createAccount(String accountName, Long accountBalance){
 

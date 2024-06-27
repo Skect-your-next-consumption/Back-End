@@ -1,7 +1,6 @@
 package com.hana.api.account.entity;
 
-import com.hana.api.user.dto.response.CardResponseDto;
-import com.hana.api.user.entity.User;
+import com.hana.api.account.dto.response.CardResponseDto;
 import com.hana.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
