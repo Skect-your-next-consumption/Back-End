@@ -27,8 +27,8 @@ public class Account extends BaseEntity {
     @Column(length = 20)
     private String accountName;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<AccountHistory> accountHistories;
+//    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<AccountHistory> accountHistories;
 
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;

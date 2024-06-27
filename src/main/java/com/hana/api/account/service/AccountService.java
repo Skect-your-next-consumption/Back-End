@@ -1,6 +1,7 @@
 package com.hana.api.account.service;
 
 import com.hana.api.account.dto.request.AccountLogRequest;
+import com.hana.api.account.dto.response.AccountLogResponse;
 import com.hana.api.account.dto.response.AccountResponseDto;
 import com.hana.api.account.entity.Account;
 import com.hana.api.account.entity.AccountHistory;
@@ -20,6 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -60,8 +64,16 @@ public class AccountService {
         return response.success("결제 내역 생성 완료");
     }
 
-    public ResponseEntity<?> getMyAccountLogs(User user){
-        return response.success();
+    public ResponseEntity<?> getMyAccountLogs(User user, int period){
+
+        List<AccountHistory> accountHistories = accountHistoryRepository.findByAccountAndCreatedDateAfterOrderByCreatedDateDesc(user.getAccount(), LocalDateTime.now().minusMonths(period));
+        List<AccountLogResponse> accountLogResponses = new ArrayList<>();
+
+        accountHistories.stream()
+                .map(AccountLogResponse::new)
+                .forEach(accountLogResponses::add);
+
+        return response.success(accountLogResponses);
     }
 
     public Account createAccount(String accountName, Long accountBalance){
