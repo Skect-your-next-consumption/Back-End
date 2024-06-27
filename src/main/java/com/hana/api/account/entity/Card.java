@@ -1,5 +1,6 @@
 package com.hana.api.account.entity;
 
+import com.hana.api.user.dto.response.CardResponseDto;
 import com.hana.api.user.entity.User;
 import com.hana.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -30,4 +31,12 @@ public class Card extends BaseEntity {
 
     @OneToOne(mappedBy = "card", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Account account;
+
+    public CardResponseDto getCardResponseDto(){
+        return CardResponseDto.builder()
+                .cardNum(this.cardNum)
+                .cardExpiredDate(this.cardExpiredDate)
+                .cardCvc(this.cardCvc)
+                .build();
+    }
 }
