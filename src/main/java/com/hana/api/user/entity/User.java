@@ -72,4 +72,8 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ChallengeUsers> challengeUsers;
+
+    public void updateProfile(String ImageUrl){
+        this.userProfile = ImageUrl;
+    }
 }
