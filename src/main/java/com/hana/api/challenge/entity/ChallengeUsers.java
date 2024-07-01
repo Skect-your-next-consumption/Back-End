@@ -34,11 +34,13 @@ public class ChallengeUsers {
     @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("challengeCode")
     @JoinColumn(name = "challenge_code", referencedColumnName = "challenge_code")
+    @JsonBackReference
     private Challenge challenge;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "state", referencedColumnName = "state")
     @JoinColumn(name = "created_date", referencedColumnName = "created_date")
+    @JsonBackReference
     private Challenge challengeBase;
     
     private Boolean challengeUserResult;

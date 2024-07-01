@@ -1,5 +1,6 @@
 package com.hana.api.user.service;
 
+import com.hana.api.account.entity.Account;
 import com.hana.api.account.service.AccountService;
 import com.hana.api.challenge.repository.ChallengeUsersRepository;
 import com.hana.api.user.dto.request.LoginRequest;
@@ -52,7 +53,8 @@ public class UserService {
         if(userRepository.existsByUserId(signupRequest.getUserId())){
             throw new NameDuplicateException(ErrorCode.USER_NAME_DUPLICATION);
         }
-
+        Account account = accountService.createAccount(signupRequest.getAccountName(), signupRequest.getAccountBalance());
+        log.info("\n\n\n"+account.toString()+"\n\n\n");
         User user =
                 User.builder()
                         .userCode(UuidGenerator.generateUuid())
@@ -65,9 +67,9 @@ public class UserService {
                         .userPhone(signupRequest.getUserPhone())
                         .userAddress(signupRequest.getUserAddress())
                         .userRole(Role.getRole(signupRequest.getUserRole()))
-                        .account(accountService.createAccount(signupRequest.getAccountName(), signupRequest.getAccountBalance()))
+                        .account(account)
                         .build();
-
+        log.info("\n\n\n"+user.toString()+"\n\n\n");
         userRepository.save(user);
 
         return response.success("회원가입 완료");
