@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @Operation(summary = "내 정보조회", description = "마이페이지에서 내 정보를 조회하기 위한 API 입니다.")
-    @PostMapping("/my-page")
+    @RequestMapping("/my-page")
     public ResponseEntity<?> getMyPage(@CurrentUser User user) {
         return userService.getMyPage(user);
     }

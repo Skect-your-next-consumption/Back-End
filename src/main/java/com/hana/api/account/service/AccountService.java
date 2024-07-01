@@ -3,9 +3,8 @@ package com.hana.api.account.service;
 import com.hana.api.account.dto.request.AccountLogRequest;
 import com.hana.api.account.dto.response.AccountLogResponse;
 import com.hana.api.account.dto.response.AccountResponseDto;
-import com.hana.api.account.entity.Account;
-import com.hana.api.account.entity.AccountHistory;
-import com.hana.api.account.entity.Card;
+import com.hana.api.account.entity.*;
+import com.hana.api.account.repository.AccountAnalysisRepository;
 import com.hana.api.account.repository.AccountHistoryRepository;
 import com.hana.api.account.repository.AccountRepository;
 import com.hana.api.account.repository.CardRepository;
@@ -23,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -33,6 +33,7 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountHistoryRepository accountHistoryRepository;
+    private final AccountAnalysisRepository accountAnalysisRepository;
     private final CardRepository cardRepository;
     private final Response response;
 
@@ -44,6 +45,7 @@ public class AccountService {
     public ResponseEntity<?> createMyAccountLogs(User user, AccountLogRequest accountLogRequest){
 
         Account account = user.getAccount();
+        log.info(user.toString());
 
         try {
             AccountHistory accountHistory = AccountHistory.builder()
@@ -61,6 +63,24 @@ public class AccountService {
         } catch(Exception e){
             throw new PaymentFailedException(ErrorCode.PAYMENT_FAILED);
         }
+        LocalDate thisMounth = LocalDate.now().minusDays(LocalDate.now().getDayOfMonth()-1);
+        AccountAnalysisId accountAnalysisId = AccountAnalysisId.builder()
+                .accountNum(account.getAccountNum())
+                .analysisDate(thisMounth)
+                .build();
+        accountAnalysisRepository.findById(accountAnalysisId).ifPresentOrElse(
+                accountAnalysis -> {
+//                    accountAnalysis.updateAccountAnalysis(accountLogRequest.getHistoryAmount());
+//                    accountAnalysisRepository.save(accountAnalysis);
+                },
+                () -> {
+                    AccountAnalysis accountAnalysis = AccountAnalysis.builder()
+                            .id(accountAnalysisId)
+                            .account(account)
+                            .build();
+                    log.info(accountAnalysis.toString());
+//                    accountAnalysisRepository.save(accountAnalysis);
+                });
         return response.success("결제 내역 생성 완료");
     }
 
