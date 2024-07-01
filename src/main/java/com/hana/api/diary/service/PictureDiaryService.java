@@ -24,10 +24,11 @@ public class PictureDiaryService {
     private final PictureDiaryRepository pictureDiaryRepository;
 
     public ResponseEntity<?> create(DiaryCreateRequest diaryCreateRequest, User user) {
+        String diaryCount = pictureDiaryRepository.countAllByUser(user)+1 + "";
         PictureDiary pictureDiary = PictureDiary.builder()
                 .diaryCode(UuidGenerator.generateUuid())
-                .diaryTitle(diaryCreateRequest.getDiaryTitle())
                 .diaryConcept(diaryCreateRequest.getDiaryConcept())
+                .diaryTitle("그림일기" + diaryCount)
                 .diaryTags(Map.of("tags", diaryCreateRequest.getDiaryTags()))
                 .diaryPayments(Map.of("payments", diaryCreateRequest.getDiaryPayments()))
                 .user(user)

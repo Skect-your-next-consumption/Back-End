@@ -10,7 +10,6 @@ import java.util.List;
 @Setter
 @ToString
 public class DiaryCreateRequest {
-    private String diaryTitle;
     private List<String> diaryPayments;
     private List<String> diaryTags;
     private String diaryConcept;
