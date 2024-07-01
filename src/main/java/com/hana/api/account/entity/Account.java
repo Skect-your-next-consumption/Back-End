@@ -3,17 +3,17 @@ package com.hana.api.account.entity;
 import com.hana.api.user.entity.User;
 import com.hana.common.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+@Slf4j
 
 @Entity
 @Table(name = "accounts")
 @Data
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account extends BaseEntity {
@@ -30,18 +30,16 @@ public class Account extends BaseEntity {
 //    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    private List<AccountHistory> accountHistories;
 
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private User user;
+//    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private User user;
 
     @OneToOne
     @JoinColumn(name = "card_num")
     private Card card;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<AccountAnalysis> accountAnalyses;
-
     public Long updateAccountBalance(Long amount){
         this.accountBalance -= amount;
+        log.info("\n\n\n\n\n\n\n\namount:"+amount.toString());
         return this.accountBalance;
     }
 }
