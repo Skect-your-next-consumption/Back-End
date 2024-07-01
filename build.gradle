@@ -57,6 +57,12 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    //JsonSimple
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+    //hypersistence-utils-hibernate-63
+    implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.1'
+
 }
 
 tasks.named('test') {

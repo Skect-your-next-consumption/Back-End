@@ -40,6 +40,5 @@ public class Challenge extends BaseEntity {
     private Integer challengeTargetAmount;
 
     @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference
     private List<ChallengeUsers> challengeUsers;
 }
