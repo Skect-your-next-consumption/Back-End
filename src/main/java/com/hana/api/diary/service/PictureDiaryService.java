@@ -36,7 +36,6 @@ public class PictureDiaryService {
                 .diaryPayments(Map.of("payments", diaryCreateRequest.getDiaryPayments()))
                 .user(user)
                 .build();
-        log.info(pictureDiary.toString());
         return response.success(pictureDiaryRepository.save(pictureDiary));
     }
 
@@ -50,5 +49,20 @@ public class PictureDiaryService {
         }
         pictureDiary.setDiaryTitle(title);
         return response.success(pictureDiaryRepository.save(pictureDiary));
+    }
+
+    public ResponseEntity<?> getDiaryList(User user){
+        JSONArray jsonArray = new JSONArray();
+        for(PictureDiary pictureDiary : pictureDiaryRepository.findAllByUser(user)){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("diaryCode", pictureDiary.getDiaryCode());
+            jsonObject.put("diaryTitle", pictureDiary.getDiaryTitle());
+            jsonObject.put("diaryConcept", pictureDiary.getDiaryConcept());
+            jsonObject.put("diaryTags", pictureDiary.getDiaryTags());
+            jsonObject.put("diaryPayments", pictureDiary.getDiaryPayments());
+            jsonObject.put("diaryImage", pictureDiary.getDiaryImage());
+            jsonArray.add(jsonObject);
+        }
+        return response.success(jsonArray);
     }
 }
