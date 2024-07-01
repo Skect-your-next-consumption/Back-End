@@ -4,12 +4,15 @@ import com.hana.api.diary.dto.request.DiaryCreateRequest;
 import com.hana.api.diary.entity.PictureDiary;
 import com.hana.api.diary.repository.PictureDiaryRepository;
 import com.hana.api.user.entity.User;
+import com.hana.common.exception.ErrorCode;
 import com.hana.common.response.Response;
+import com.hana.common.type.Role;
 import com.hana.common.util.UuidGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +37,18 @@ public class PictureDiaryService {
                 .user(user)
                 .build();
         log.info(pictureDiary.toString());
+        return response.success(pictureDiaryRepository.save(pictureDiary));
+    }
+
+    public ResponseEntity<?> updateDiaryTitle(String diaryId,String title, User user){
+        PictureDiary pictureDiary = pictureDiaryRepository.findById(diaryId).orElse(null);
+        if(pictureDiary == null){
+            return response.fail(ErrorCode.DIARY_NOT_FOUND, HttpStatus.BAD_REQUEST);
+        }
+        if(!pictureDiary.getUser().equals(user) && !user.getUserRole().equals(Role.Admin)){
+            return response.fail(ErrorCode.DIARY_NOY_AUTHORIZED, HttpStatus.BAD_REQUEST);
+        }
+        pictureDiary.setDiaryTitle(title);
         return response.success(pictureDiaryRepository.save(pictureDiary));
     }
 }
