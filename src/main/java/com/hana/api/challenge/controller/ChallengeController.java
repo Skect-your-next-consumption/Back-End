@@ -2,6 +2,7 @@ package com.hana.api.challenge.controller;
 
 
 import com.hana.api.challenge.dto.request.ChallengeCreateRequest;
+import com.hana.api.challenge.dto.request.InvitationListRequest;
 import com.hana.api.challenge.service.ChallengeService;
 import com.hana.api.user.entity.User;
 import com.hana.common.type.CurrentUser;
@@ -29,6 +30,19 @@ public class ChallengeController {
     public ResponseEntity<?> create(@RequestBody ChallengeCreateRequest challengeCreateRequest) {
         return challengeService.create(challengeCreateRequest);
     }
+
+    @Operation(summary = "초대 가능 유저 조회", description = "챌린지 생성 시 초대 가능한 유저를 조회하는 API 입니다.")
+    @PostMapping("/invitation-list")
+    public ResponseEntity<?> getInvitationList(@CurrentUser User user, @RequestBody InvitationListRequest invitationListRequest){
+        return challengeService.getInvitationList(user,invitationListRequest);
+    }
+
+    @Operation(summary = "최근 챌린지 같이 진행한 유저 조회", description = "최근 챌린지 같이 진행한 유저를 조회하는 API 입니다.")
+    @RequestMapping("/recent-list")
+    public ResponseEntity<?> getRecentList(@CurrentUser User user){
+        return challengeService.getRecentList(user);
+    }
+
     @Operation(summary = "진행중인 챌린지 조회", description = "진행중인 챌린지를 조회하는 API 입니다.")
     @RequestMapping("/ongoing")
     public ResponseEntity<?> getOngoingChallenges(@CurrentUser User user) {
