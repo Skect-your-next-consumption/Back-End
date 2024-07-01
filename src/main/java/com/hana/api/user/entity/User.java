@@ -58,7 +58,7 @@ public class User extends BaseEntity {
     private String userAddress;
 
     @Column(name = "user_profile", length = 300)
-    @ColumnDefault("https://sync-bucket1.s3.ap-northeast-2.amazonaws.com/profile/default.png")
+    @ColumnDefault("'https://sync-bucket1.s3.ap-northeast-2.amazonaws.com/profile/default.png'")
     private String userProfile;
 
     @Enumerated(EnumType.STRING)

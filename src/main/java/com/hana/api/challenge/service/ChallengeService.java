@@ -1,6 +1,9 @@
 package com.hana.api.challenge.service;
 
 import com.hana.api.challenge.dto.request.ChallengeCreateRequest;
+import com.hana.api.challenge.dto.request.InvitationInfo;
+import com.hana.api.challenge.dto.request.InvitationListRequest;
+import com.hana.api.challenge.dto.response.InvitationListResponse;
 import com.hana.api.challenge.entity.Challenge;
 import com.hana.api.challenge.entity.ChallengeUsers;
 import com.hana.api.challenge.entity.ChallengeUsersId;
@@ -21,6 +24,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,7 +75,7 @@ public class ChallengeService {
     }
 
     public ResponseEntity<?> getOngoingChallenges(User user){
-        return response.success(challengeUsersRepository.findAllChallengeUsersByUserAndChallengeBase_State(user,State.Active));
+        return response.success(challengeRepository.findAllChallengeByChallengeUsers_UserAndState(user,State.Active));
     }
 
     public ResponseEntity<?> getHotChallenges(){
@@ -79,6 +83,38 @@ public class ChallengeService {
     }
 
     public ResponseEntity<?> getDoneChallenges(User user){
-        return response.success(challengeUsersRepository.findAllChallengeUsersByUserAndChallengeBase_State(user,State.Finish));
+        return response.success(challengeRepository.findAllChallengeByChallengeUsers_UserAndState(user,State.Finish));
+    }
+
+    public ResponseEntity<?> getInvitationList(User user, InvitationListRequest invitationListRequest){
+        List<InvitationInfo> invitationInfos = invitationListRequest.getInvitationList();
+        List<InvitationListResponse> invitationListResponses = new ArrayList<>();
+        for (int i=0;i<invitationInfos.size();i++){
+            InvitationInfo info = invitationInfos.get(i);
+            Optional<User> availableUser = userRepository.findByUserPhone(info.getPhoneNum());
+            if(availableUser.isPresent()){
+                invitationListResponses.add(InvitationListResponse.builder()
+                        .name(info.getName())
+                        .phoneNum(info.getPhoneNum())
+                        .realName(availableUser.get().getUserName())
+                        .build());
+
+            }
+        }
+        return response.success(invitationListResponses.toArray(),HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> getRecentList(User user){
+        List<User> users = new ArrayList<>();
+        List<Challenge> challenges = challengeRepository.findTop3ByChallengeUsers_UserOrderByCreatedDateDesc(user);
+        for (int i=0;i<challenges.size();i++){
+            List<ChallengeUsers> challengeUsers = challenges.get(i).getChallengeUsers();
+            for (int j=0;j<challengeUsers.size();j++){
+                if(!challengeUsers.get(j).getUser().getUserCode().equals(user.getUserCode()) && !users.contains(challengeUsers.get(j).getUser())){
+                    users.add(challengeUsers.get(j).getUser());
+                }
+            }
+        }
+        return response.success(users);
     }
 }
