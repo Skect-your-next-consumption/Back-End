@@ -125,6 +125,7 @@ public class UserService {
                 .userCredit(user.getUserCredit())
                 .userAddress(user.getUserAddress())
                 .userProfileUrl(user.getUserProfile())
+                .account(user.getAccount())
                 .build();
 
         return  response.success(myPageResponseDto, HttpStatus.OK);
