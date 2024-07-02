@@ -1,6 +1,7 @@
 package com.hana.api.user.dto.response;
 
 import com.hana.api.account.dto.response.CardResponseDto;
+import com.hana.api.account.entity.Account;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,4 +20,5 @@ public class MyPageResponseDto {
     private Integer userCredit;
     private String userAddress;
     private String userProfileUrl;
+    private Account account;
 }
