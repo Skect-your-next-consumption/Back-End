@@ -20,6 +20,7 @@ public class MyPageResponseDto {
     private Integer userCredit;
     private String userAddress;
     private String userProfileUrl;
+    private String userEngName;
     private Account account;
     private int ChallengeCount;
 }

@@ -124,6 +124,7 @@ public class UserService {
                 .userCredit(user.getUserCredit())
                 .userAddress(user.getUserAddress())
                 .userProfileUrl(user.getUserProfile())
+                .userEngName(user.getUserNameEng())
                 .account(user.getAccount())
                 .ChallengeCount(challengeUsersRepository.countByUserAndChallengeBase_State(user, State.Active))
                 .build();
