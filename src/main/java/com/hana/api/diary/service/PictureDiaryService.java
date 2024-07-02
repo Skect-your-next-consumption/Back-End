@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -64,5 +65,16 @@ public class PictureDiaryService {
             jsonArray.add(jsonObject);
         }
         return response.success(jsonArray);
+    }
+
+    public ResponseEntity<?> getDiaryInfo(String diaryCode, User user){
+        Optional<PictureDiary> pictureDiary = pictureDiaryRepository.findByDiaryCode(diaryCode);
+        if (user.equals(null)){
+            return response.fail(ErrorCode.USER_NOT_FOUND, HttpStatus.BAD_REQUEST);
+        }
+        if(!pictureDiary.isPresent()){
+            return response.fail(ErrorCode.DIARY_NOT_FOUND, HttpStatus.BAD_REQUEST);
+        }
+        return response.success(pictureDiary);
     }
 }

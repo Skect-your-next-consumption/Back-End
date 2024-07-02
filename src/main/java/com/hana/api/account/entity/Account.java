@@ -35,9 +35,11 @@ public class Account extends BaseEntity {
 
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
+    @ToString.Exclude
     private User user;
 
     @OneToOne
+    @ToString.Exclude
     @JoinColumn(name = "card_num")
     private Card card;
 

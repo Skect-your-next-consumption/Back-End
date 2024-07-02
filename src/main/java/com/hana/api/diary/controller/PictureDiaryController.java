@@ -39,4 +39,10 @@ public class PictureDiaryController {
     public ResponseEntity<?> getDiaryList(@CurrentUser User user) {
         return pictureDiaryService.getDiaryList(user);
     }
+
+    @Operation(summary = "그림일기 상세 조회", description = "그림일기 상세 조회를 위한 API 입니다.")
+    @GetMapping("/info")
+    public ResponseEntity<?> getDiaryInfo(@RequestParam("diaryCode") String diaryCode, @CurrentUser User user) {
+        return pictureDiaryService.getDiaryInfo(diaryCode, user);
+    }
 }
