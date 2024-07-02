@@ -6,10 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 @Entity
 @Data
 @Builder
+@DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountHistory extends BaseEntity {

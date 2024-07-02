@@ -30,6 +30,7 @@ public class Card extends BaseEntity {
     @Column(length = 3)
     private String cardCvc;
 
+
     @OneToOne(mappedBy = "card", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonBackReference
     private Account account;

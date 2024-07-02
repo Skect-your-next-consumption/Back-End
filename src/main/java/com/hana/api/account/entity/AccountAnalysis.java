@@ -7,20 +7,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDate;
 
 @Entity
 @Data
 @Builder
+@DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountAnalysis extends BaseEntity {
 
-    @Id
-    private LocalDate analysisDate;
+    @EmbeddedId
+    private AccountAnalysisId id;
+
 
     @ManyToOne
+    @MapsId("accountNum")
     @JoinColumn(name = "account_num", nullable = false)
     @JsonBackReference
     private Account account;
