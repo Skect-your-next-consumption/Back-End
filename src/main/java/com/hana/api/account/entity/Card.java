@@ -1,5 +1,7 @@
 package com.hana.api.account.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hana.api.account.dto.response.CardResponseDto;
 import com.hana.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -28,7 +30,8 @@ public class Card extends BaseEntity {
     @Column(length = 3)
     private String cardCvc;
 
-    @OneToOne(mappedBy = "card", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "card", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonBackReference
     private Account account;
 
     public CardResponseDto getCardResponseDto(){
