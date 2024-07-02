@@ -37,7 +37,7 @@ public class AccountController {
     @Operation(summary = "결제 내역 조회", description = "결제 내역 조회를 위한 API 입니다.")
     @GetMapping("/logs/{period}")
     public ResponseEntity<?> getMyAccountLogs(@CurrentUser User user,
-                                              @PathVariable Integer period) {
-        return accountService.getMyAccountLogs(user, period);
+                                             @PathVariable("period") int period){
+        return accountService.getMyAccountLogs(user,period);
     }
 }

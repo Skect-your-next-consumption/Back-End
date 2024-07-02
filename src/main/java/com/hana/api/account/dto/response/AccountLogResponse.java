@@ -16,6 +16,7 @@ public class AccountLogResponse {
     private Long historyBeforeBalance;
     private Long historyAfterBalance;
     private LocalDate historyDate;
+    private String historyCode;
 
     public AccountLogResponse(AccountHistory accountHistory){
         this.historyOpposit = accountHistory.getHistoryOpposit();
@@ -24,5 +25,6 @@ public class AccountLogResponse {
         this.historyBeforeBalance = accountHistory.getHistoryBeforeBalance();
         this.historyAfterBalance = accountHistory.getHistoryAfterBalance();
         this.historyDate = accountHistory.getCreatedDate().toLocalDate();
+        this.historyCode = accountHistory.getHistoryCode();
     }
 }
