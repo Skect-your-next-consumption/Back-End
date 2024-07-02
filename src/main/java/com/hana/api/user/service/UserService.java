@@ -116,7 +116,6 @@ public class UserService {
 
 
     public ResponseEntity<?> getMyPage(User user){
-
         MyPageResponseDto myPageResponseDto = MyPageResponseDto.builder()
                 .userName(user.getUserName())
                 .userGender(user.getUserGender().getValue())
@@ -126,6 +125,7 @@ public class UserService {
                 .userAddress(user.getUserAddress())
                 .userProfileUrl(user.getUserProfile())
                 .account(user.getAccount())
+                .ChallengeCount(challengeUsersRepository.countByUserAndChallengeBase_State(user, State.Active))
                 .build();
 
         return  response.success(myPageResponseDto, HttpStatus.OK);

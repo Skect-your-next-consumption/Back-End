@@ -21,4 +21,5 @@ public class MyPageResponseDto {
     private String userAddress;
     private String userProfileUrl;
     private Account account;
+    private int ChallengeCount;
 }
