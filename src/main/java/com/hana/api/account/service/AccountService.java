@@ -17,6 +17,7 @@ import com.hana.common.util.GetPaymentCategory;
 import com.hana.common.util.UuidGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,9 @@ public class AccountService {
     private final CardRepository cardRepository;
     private final Response response;
 
-    private final GetPaymentCategory getPaymentCategory;
+    @Autowired
+    private GetPaymentCategory getPaymentCategory;
+
     public ResponseEntity<?> getMyAccount(User user){
         AccountResponseDto accountResponseDto = new AccountResponseDto(user.getAccount(), user.getUserNameEng());
         return response.success(accountResponseDto);
