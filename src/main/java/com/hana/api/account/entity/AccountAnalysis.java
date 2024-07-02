@@ -1,5 +1,6 @@
 package com.hana.api.account.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.hana.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class AccountAnalysis extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "account_num", nullable = false)
+    @JsonBackReference
     private Account account;
 
     private Integer analysisTotal;
