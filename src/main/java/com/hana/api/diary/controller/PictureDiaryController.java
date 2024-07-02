@@ -45,4 +45,10 @@ public class PictureDiaryController {
     public ResponseEntity<?> getDiaryInfo(@RequestParam("diaryCode") String diaryCode, @CurrentUser User user) {
         return pictureDiaryService.getDiaryInfo(diaryCode, user);
     }
+    
+    @Operation(summary = "Hot 그림체", description = "Hot 그림체 조회를 위한 API 입니다.")
+    @GetMapping("/hot")
+    public ResponseEntity<?> getHotDiary() {
+        return pictureDiaryService.getHotDiaryCategory();
+    }
 }

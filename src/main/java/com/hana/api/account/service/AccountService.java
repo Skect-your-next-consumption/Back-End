@@ -13,6 +13,7 @@ import com.hana.common.exception.ErrorCode;
 import com.hana.common.exception.account.AccountNumDuplicateException;
 import com.hana.common.exception.account.PaymentFailedException;
 import com.hana.common.response.Response;
+import com.hana.common.util.GetPaymentCategory;
 import com.hana.common.util.UuidGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,7 @@ public class AccountService {
     private final CardRepository cardRepository;
     private final Response response;
 
+    private final GetPaymentCategory getPaymentCategory;
     public ResponseEntity<?> getMyAccount(User user){
         AccountResponseDto accountResponseDto = new AccountResponseDto(user.getAccount(), user.getUserNameEng());
         return response.success(accountResponseDto);
@@ -45,19 +47,23 @@ public class AccountService {
     public ResponseEntity<?> createMyAccountLogs(User user, AccountLogRequest accountLogRequest){
 
         Account account = user.getAccount();
-        log.info(user.toString());
-
         try {
             AccountHistory accountHistory = AccountHistory.builder()
                     .historyCode(UuidGenerator.generateUuid())
                     .account(account)
                     .historyAmount(accountLogRequest.getHistoryAmount())
                     .historyOpposit(accountLogRequest.getHistoryOpposit())
-                    .historyBusinessCode(accountLogRequest.getHistoryBusinessCode())
                     .historyBeforeBalance(account.getAccountBalance())
                     .historyAfterBalance(account.updateAccountBalance(accountLogRequest.getHistoryAmount()))
                     .build();
-
+            if (accountLogRequest.getHistoryAmount()>0){
+                String categoryInfo = getPaymentCategory.getPaymentCategory(accountLogRequest.getHistoryOpposit());
+                log.info("category : "+categoryInfo);
+                accountHistory.setHistoryCategory(categoryInfo.split(">")[2].trim());
+                accountHistory.setHistoryClass(categoryInfo.split(">")[0].trim());
+            }else{
+                accountHistory.setHistoryCategory("계좌이체");
+            }
             accountRepository.save(account);
             accountHistoryRepository.save(accountHistory);
         } catch(Exception e){

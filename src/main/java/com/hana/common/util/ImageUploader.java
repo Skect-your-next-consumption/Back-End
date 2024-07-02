@@ -88,8 +88,6 @@ public class ImageUploader {
         // S3 버킷에서 파일 삭제
         if (fileExists) {
             amazonS3.deleteObject(bucket, decodeURL);
-        } else {
-            throw new S3DeleteException(ErrorCode.IMAGE_DELETE_FAIL);
         }
     }
 

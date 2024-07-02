@@ -11,6 +11,4 @@ public class AccountLogRequest {
     private String historyOpposit;
     @Schema(description = "결제 금액", example = "20000")
     private Long historyAmount;
-    @Schema(description = "상호코드", example = "1011")
-    private Integer historyBusinessCode;
 }

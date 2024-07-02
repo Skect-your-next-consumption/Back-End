@@ -77,4 +77,8 @@ public class PictureDiaryService {
         }
         return response.success(pictureDiary);
     }
+
+    public ResponseEntity<?> getHotDiaryCategory(){
+        return response.success(pictureDiaryRepository.findHotDiaryCategory());
+    }
 }

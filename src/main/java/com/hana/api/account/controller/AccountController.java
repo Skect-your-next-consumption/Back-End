@@ -5,12 +5,18 @@ import com.hana.api.account.service.AccountService;
 import com.hana.api.user.dto.request.LoginRequest;
 import com.hana.api.user.entity.User;
 import com.hana.common.type.CurrentUser;
+import com.hana.common.util.GetPaymentCategory;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,7 +36,7 @@ public class AccountController {
     @Operation(summary = "결제 내역 생성", description = "결제 내역 생성을 위한 API 입니다.")
     @PostMapping("/logs")
     public ResponseEntity<?> createMyAccountLogs(@CurrentUser User user,
-                                                 @RequestBody AccountLogRequest accountLogRequest) {
+                                                 @RequestBody AccountLogRequest accountLogRequest) throws IOException, InterruptedException, ParseException {
         return accountService.createMyAccountLogs(user, accountLogRequest);
     }
 

@@ -29,9 +29,11 @@ public class AccountHistory extends BaseEntity {
     @Column(length = 20)
     private String historyOpposit;
 
-    private Integer historyBusinessCode;
+    private String historyClass;
 
     private Long historyBeforeBalance;
 
     private Long historyAfterBalance;
+
+    private String historyCategory;
 }
