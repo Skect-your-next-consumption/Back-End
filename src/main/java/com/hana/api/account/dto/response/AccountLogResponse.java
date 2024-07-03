@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 public class AccountLogResponse {
     private String historyOpposit;
-    private Long historyAmount;
+    private Integer historyAmount;
     private Integer historyBusinessCode;
     private Long historyBeforeBalance;
     private Long historyAfterBalance;

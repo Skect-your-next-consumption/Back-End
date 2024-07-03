@@ -1,16 +1,14 @@
 package com.hana.common.util;
 
+import com.hana.api.account.dto.response.CategoryInfo;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class HistoryClassNormalizer {
-    public static String normalize(String className) {
-        if (className == null) {
-            return null;
-        }
-        switch (className) {
-            case "음식점":
-                return "식비";
-            case "카페":
-                return "식비";
-        }
-        return className;
+    public static CategoryInfo normalize(String info) {
+        CategoryInfo categoryInfo = new CategoryInfo();
+//        String[] split = info.split(">");
+        log.info("CategoryInfo:"+info);
+        return categoryInfo;
     }
 }

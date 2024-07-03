@@ -40,6 +40,7 @@ public class GetPaymentCategory {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = (JSONObject) parser.parse(response.body());
+        log.info("jsonObject: " + jsonObject.toString());
         JSONArray documents = (JSONArray) jsonObject.get("documents");
         JSONObject firstDocument = (JSONObject) documents.get(0);
 

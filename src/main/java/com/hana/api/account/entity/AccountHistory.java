@@ -24,7 +24,7 @@ public class AccountHistory extends BaseEntity {
     @JoinColumn(name = "account_num", nullable = false)
     private Account account;
 
-    private Long historyAmount;
+    private Integer historyAmount;
 
     @Column(length = 20)
     private String historyOpposit;

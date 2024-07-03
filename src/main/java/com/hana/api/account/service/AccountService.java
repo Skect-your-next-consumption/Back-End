@@ -3,6 +3,7 @@ package com.hana.api.account.service;
 import com.hana.api.account.dto.request.AccountLogRequest;
 import com.hana.api.account.dto.response.AccountLogResponse;
 import com.hana.api.account.dto.response.AccountResponseDto;
+import com.hana.api.account.dto.response.CategoryInfo;
 import com.hana.api.account.entity.*;
 import com.hana.api.account.repository.AccountAnalysisRepository;
 import com.hana.api.account.repository.AccountHistoryRepository;
@@ -14,9 +15,11 @@ import com.hana.common.exception.account.AccountNumDuplicateException;
 import com.hana.common.exception.account.PaymentFailedException;
 import com.hana.common.response.Response;
 import com.hana.common.util.GetPaymentCategory;
+import com.hana.common.util.HistoryClassNormalizer;
 import com.hana.common.util.UuidGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +42,7 @@ public class AccountService {
     private final Response response;
 
 
+    @Autowired
     private GetPaymentCategory getPaymentCategory;
 
     public ResponseEntity<?> getMyAccount(User user){
@@ -56,19 +60,14 @@ public class AccountService {
                     .historyAmount(accountLogRequest.getHistoryAmount())
                     .historyOpposit(accountLogRequest.getHistoryOpposit())
                     .historyBeforeBalance(account.getAccountBalance())
-                    .historyAfterBalance(account.updateAccountBalance(accountLogRequest.getHistoryAmount()))
+                    .historyCategory(accountLogRequest.getHistoryCategory())
+                    .historyClass(accountLogRequest.getHistoryClass())
+                    .historyAfterBalance(account.updateAccountBalance(accountLogRequest.getHistoryAmount().longValue()))
                     .build();
-            if (accountLogRequest.getHistoryAmount()>0){
-                String categoryInfo = getPaymentCategory.getPaymentCategory(accountLogRequest.getHistoryOpposit());
-                log.info("category : "+categoryInfo);
-                accountHistory.setHistoryCategory(categoryInfo.split(">")[2].trim());
-                accountHistory.setHistoryClass(categoryInfo.split(">")[0].trim());
-            }else{
-                accountHistory.setHistoryCategory("계좌이체");
-            }
             accountRepository.save(account);
             accountHistoryRepository.save(accountHistory);
         } catch(Exception e){
+            e.printStackTrace();
             throw new PaymentFailedException(ErrorCode.PAYMENT_FAILED);
         }
         LocalDate thisMounth = LocalDate.now().minusDays(LocalDate.now().getDayOfMonth()-1);
@@ -78,16 +77,34 @@ public class AccountService {
                 .build();
         accountAnalysisRepository.findById(accountAnalysisId).ifPresentOrElse(
                 accountAnalysis -> {
-//                    accountAnalysis.updateAccountAnalysis(accountLogRequest.getHistoryAmount());
-//                    accountAnalysisRepository.save(accountAnalysis);
+                    accountAnalysis.UpdateAnalysis(accountLogRequest.getHistoryAmount(), accountLogRequest.getHistoryClass());
+                    accountAnalysisRepository.save(accountAnalysis);
                 },
                 () -> {
                     AccountAnalysis accountAnalysis = AccountAnalysis.builder()
                             .id(accountAnalysisId)
                             .account(account)
                             .build();
+                    switch(accountLogRequest.getHistoryClass()){
+                        case "식비":
+                            accountAnalysis.setAnalysisFood(accountLogRequest.getHistoryAmount());
+                            break;
+                        case "교통비":
+                            accountAnalysis.setTransportation(accountLogRequest.getHistoryAmount());
+                            break;
+                        case "카페":
+                            accountAnalysis.setAnalysisCafe(accountLogRequest.getHistoryAmount());
+                            break;
+                        case "유흥":
+                            accountAnalysis.setPleasure(accountLogRequest.getHistoryAmount());
+                            break;
+                        case "기타":
+                            accountAnalysis.setEtc(accountLogRequest.getHistoryAmount());
+                            break;
+                    }
+                    accountAnalysis.setAnalysisTotal(accountLogRequest.getHistoryAmount());
                     log.info(accountAnalysis.toString());
-//                    accountAnalysisRepository.save(accountAnalysis);
+                    accountAnalysisRepository.save(accountAnalysis);
                 });
         return response.success("결제 내역 생성 완료");
     }
