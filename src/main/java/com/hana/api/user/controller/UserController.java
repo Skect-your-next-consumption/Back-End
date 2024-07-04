@@ -10,9 +10,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -58,4 +62,12 @@ public class UserController {
                                            @ModelAttribute ProfileRequest profileRequest) {
         return userService.updateProfile(user, profileRequest);
     }
+
+    @Operation(summary = "이번달 소비 통계 ", description = "홈에서 이번달 소비 통계를 보기위한 API입니다.")
+    @RequestMapping("/statistics/{month}")
+    public ResponseEntity<?> getStatistics(@CurrentUser User user, @PathVariable("month") String month){
+        LocalDate localDate = LocalDate.parse(month);
+        return userService.getStatistics(user,localDate);
+    }
+
 }

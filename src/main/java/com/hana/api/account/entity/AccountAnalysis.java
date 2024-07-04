@@ -3,10 +3,7 @@ package com.hana.api.account.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.hana.common.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDate;
@@ -17,6 +14,7 @@ import java.time.LocalDate;
 @DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class AccountAnalysis extends BaseEntity {
 
     @EmbeddedId
