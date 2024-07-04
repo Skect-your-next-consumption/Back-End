@@ -116,7 +116,7 @@ public class UserService {
         MyInfoResponseDto myInfoResponseDto = MyInfoResponseDto.builder()
                 .userName(user.getUserName())
                 .userCredit(user.getUserCredit())
-                .userChallenges(challengeUsersRepository.countByUserAndChallengeBase_State(user, State.Active))
+                .userChallenges(challengeUsersRepository.countByUserAndChallengeState_State(user, State.Active))
                 .build();
 
         return  response.success(myInfoResponseDto, HttpStatus.OK);
@@ -143,7 +143,7 @@ public class UserService {
                 .userProfileUrl(user.getUserProfile())
                 .userEngName(user.getUserNameEng())
                 .account(user.getAccount())
-                .ChallengeCount(challengeUsersRepository.countByUserAndChallengeBase_State(user, State.Active))
+                .ChallengeCount(challengeUsersRepository.countByUserAndChallengeState_State(user, State.Active))
                 .build();
 
         return  response.success(myPageResponseDto, HttpStatus.OK);

@@ -38,10 +38,14 @@ public class ChallengeUsers {
     private Challenge challenge;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "state", referencedColumnName = "state")
     @JoinColumn(name = "created_date", referencedColumnName = "created_date")
     @JsonBackReference
-    private Challenge challengeBase;
+    private Challenge challengeCreateDate;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "state", referencedColumnName = "state")
+    @JsonBackReference
+    private Challenge challengeState;
     
     private Boolean challengeUserResult;
 

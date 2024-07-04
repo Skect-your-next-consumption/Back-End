@@ -68,7 +68,8 @@ public class ChallengeService {
                             .id(challengeUsersId)
                             .challenge(inserted)
                             .user(user.get())
-                            .challengeBase(inserted)
+                            .challengeCreateDate(inserted)
+                            .challengeState(inserted)
                             .build();
             challengeUsersRepository.save(challengeUsers);
         }
