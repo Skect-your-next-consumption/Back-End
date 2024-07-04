@@ -1,6 +1,8 @@
 package com.hana.api.user.service;
 
 import com.hana.api.account.entity.Account;
+import com.hana.api.account.entity.AccountAnalysisId;
+import com.hana.api.account.repository.AccountAnalysisRepository;
 import com.hana.api.account.service.AccountService;
 import com.hana.api.challenge.repository.ChallengeUsersRepository;
 import com.hana.api.user.dto.request.LoginRequest;
@@ -9,6 +11,7 @@ import com.hana.api.user.dto.request.SignUpRequest;
 import com.hana.api.user.dto.response.LoginResponseDto;
 import com.hana.api.user.dto.response.MyInfoResponseDto;
 import com.hana.api.user.dto.response.MyPageResponseDto;
+import com.hana.api.user.dto.response.StatisticsResponseDto;
 import com.hana.api.user.entity.User;
 import com.hana.api.user.repository.UserRepository;
 import com.hana.common.exception.user.NameDuplicateException;
@@ -31,6 +34,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +48,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final ImageUploader imageUploader;
     private final ChallengeUsersRepository challengeUsersRepository;
+    private final AccountAnalysisRepository accountAnalysisRepository;
 
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
@@ -112,6 +120,15 @@ public class UserService {
                 .build();
 
         return  response.success(myInfoResponseDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> getStatistics(User user, LocalDate month){
+//        log.info(user.toString());
+        AccountAnalysisId accountAnalysisId = AccountAnalysisId.builder()
+                .accountNum(user.getAccount().getAccountNum())
+                .analysisDate(month)
+                .build();
+        return  response.success(accountAnalysisRepository.findById(accountAnalysisId), HttpStatus.OK);
     }
 
 
