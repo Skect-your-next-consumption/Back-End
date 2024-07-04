@@ -7,15 +7,19 @@ import com.hana.api.user.entity.User;
 import com.hana.common.exception.ErrorCode;
 import com.hana.common.response.Response;
 import com.hana.common.type.Role;
+import com.hana.common.util.PictureDiaryGenerator;
 import com.hana.common.util.UuidGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,8 +30,9 @@ public class PictureDiaryService {
 
     private final Response response;
     private final PictureDiaryRepository pictureDiaryRepository;
+    private final PictureDiaryGenerator pictureDiaryGenerator;
 
-    public ResponseEntity<?> create(DiaryCreateRequest diaryCreateRequest, User user) {
+    public ResponseEntity<?> create(DiaryCreateRequest diaryCreateRequest, User user) throws IOException, InterruptedException {
         String diaryCount = pictureDiaryRepository.countAllByUser(user)+1 + "";
         PictureDiary pictureDiary = PictureDiary.builder()
                 .diaryCode(UuidGenerator.generateUuid())
@@ -37,6 +42,7 @@ public class PictureDiaryService {
                 .diaryPayments(Map.of("payments", diaryCreateRequest.getDiaryPayments()))
                 .user(user)
                 .build();
+        pictureDiary.setDiaryImage(pictureDiaryGenerator.generatePictureDiary(pictureDiary,user));
         return response.success(pictureDiaryRepository.save(pictureDiary));
     }
 

@@ -86,7 +86,7 @@ public class ImageUploader {
         String decodeURL = decodeURL(fileUrl);
         boolean fileExists = amazonS3.doesObjectExist(bucket, decodeURL);
         // S3 버킷에서 파일 삭제
-        if (fileExists) {
+        if (fileExists && !decodeURL.equals("profile/default.png")) {
             amazonS3.deleteObject(bucket, decodeURL);
         }
     }

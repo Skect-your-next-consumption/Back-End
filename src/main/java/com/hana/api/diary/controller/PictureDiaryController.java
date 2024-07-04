@@ -9,8 +9,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.parser.ParseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,7 +26,7 @@ public class PictureDiaryController {
 
     @Operation(summary = "그림일기 생성", description = "그림일기 생성을 위한 API 입니다.")
     @PostMapping("")
-    public ResponseEntity<?> create(@RequestBody DiaryCreateRequest diaryCreateRequest, @CurrentUser User user) {
+    public ResponseEntity<?> create(@RequestBody DiaryCreateRequest diaryCreateRequest, @CurrentUser User user) throws IOException, InterruptedException {
         log.info("diaryCreateRequest : {}", diaryCreateRequest.toString());
         log.info("user : {}", user.toString());
         return pictureDiaryService.create(diaryCreateRequest, user);

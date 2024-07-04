@@ -44,12 +44,12 @@ public class Account extends BaseEntity {
     private Card card;
 
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<AccountAnalysis> accountAnalyses = new ArrayList<>();
+//    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JsonBackReference
+//    private List<AccountAnalysis> accountAnalyses = new ArrayList<>();
 
     public Long updateAccountBalance(Long amount){
         this.accountBalance -= amount;
-        log.info("\n\n\n\n\n\n\n\namount:"+amount.toString());
         return this.accountBalance;
     }
 }
