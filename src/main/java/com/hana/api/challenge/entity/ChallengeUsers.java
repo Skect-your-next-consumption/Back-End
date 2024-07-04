@@ -1,6 +1,7 @@
 package com.hana.api.challenge.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hana.api.user.entity.User;
 import com.hana.common.entity.BaseEntity;
@@ -31,17 +32,11 @@ public class ChallengeUsers {
     @JoinColumn(name = "user_code", referencedColumnName = "user_code")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @MapsId("challengeCode")
     @JoinColumn(name = "challenge_code", referencedColumnName = "challenge_code")
-    @JsonBackReference
+    @JsonIgnore
     private Challenge challenge;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "state", referencedColumnName = "state")
-    @JoinColumn(name = "created_date", referencedColumnName = "created_date")
-    @JsonBackReference
-    private Challenge challengeBase;
     
     private Boolean challengeUserResult;
 

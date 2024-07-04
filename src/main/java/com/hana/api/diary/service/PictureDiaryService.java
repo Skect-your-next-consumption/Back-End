@@ -75,6 +75,7 @@ public class PictureDiaryService {
             jsonObject.put("diaryTags", pictureDiary.getDiaryTags());
             jsonObject.put("diaryPayments", pictureDiary.getDiaryPayments());
             jsonObject.put("diaryImage", pictureDiary.getDiaryImage());
+            jsonObject.put("diaryCreateDate", pictureDiary.getCreatedDate());
             jsonArray.add(jsonObject);
         }
         return response.success(jsonArray);

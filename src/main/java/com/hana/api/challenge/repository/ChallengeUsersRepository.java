@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface ChallengeUsersRepository extends JpaRepository<ChallengeUsers, ChallengeUsersId> {
-    List<OngoingChallengeInterface> findAllChallengeUsersByUserAndChallengeBase_State(User user,State state);
+    List<OngoingChallengeInterface> findAllChallengeUsersByUserAndChallengeState_State(User user,State state);
 //    List<OngoingChallengeInterface> findAllChallengeUsersByUserAndState(User user, State state);
-    Integer countByUserAndChallengeBase_State(User user, State state);
+    Integer countByUserAndChallengeState_State(User user, State state);
 }

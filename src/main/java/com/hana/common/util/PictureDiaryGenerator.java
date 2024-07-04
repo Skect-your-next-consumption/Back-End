@@ -52,7 +52,7 @@ public class PictureDiaryGenerator {
     private final AmazonS3 amazonS3;
     public String generatePictureDiary(PictureDiary pictureDiary, User user) throws IOException, InterruptedException {
 
-        String prompt = pictureDiary.getDiaryConcept().toString() + ", 단순하게      " + pictureDiary.getDiaryTags().get("tags").toString() + "라는 키워드들을 바탕으로 간단한 스토리를 만들고, 배경은 한국이야. 그 스토리를 바탕으로 그림 1장을 그려줘. 그려준 그림 안에 글자는 전혀 들어가지 않게 그림으로만 표현해주고, 컷을 2~4개 정도로 나눠서 그려 줘도 좋아.";
+        String prompt = pictureDiary.getDiaryConcept().toString() + ", 단순하게      " + pictureDiary.getDiaryTags().get("tags").toString() + "라는 키워드들을 바탕으로 간단한 스토리를 만들고, 배경은 한국이야. 그 스토리를 바탕으로 그림 그려줘. 스토리는 그림에 적지 말고 너만 알고있어.";
         log.info("prompt : {}", prompt);
 
         String url = "https://api.openai.com/v1/images/generations";
