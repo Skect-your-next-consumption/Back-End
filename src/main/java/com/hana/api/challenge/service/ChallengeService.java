@@ -68,8 +68,6 @@ public class ChallengeService {
                             .id(challengeUsersId)
                             .challenge(inserted)
                             .user(user.get())
-                            .challengeCreateDate(inserted)
-                            .challengeState(inserted)
                             .build();
             challengeUsersRepository.save(challengeUsers);
         }
@@ -140,5 +138,9 @@ public class ChallengeService {
             }
         }
         return response.success(users);
+    }
+
+    public ResponseEntity<?> getChallengeDetail(String challengeCode){
+        return response.success(challengeRepository.findById(challengeCode));
     }
 }

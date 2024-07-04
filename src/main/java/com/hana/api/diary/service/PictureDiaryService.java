@@ -82,6 +82,7 @@ public class PictureDiaryService {
         if(!pictureDiary.isPresent()){
             return response.fail(ErrorCode.DIARY_NOT_FOUND, HttpStatus.BAD_REQUEST);
         }
+
         return response.success(pictureDiary);
     }
 

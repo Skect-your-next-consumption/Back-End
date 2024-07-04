@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
+public interface ChallengeRepository extends JpaRepository<Challenge, String> {
     Optional<Challenge> findByChallengeCode(String challengeCode);
 
     List<Challenge> findAllChallengeByChallengeUsers_UserAndState(User user, State state);
@@ -21,4 +21,5 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 
     @Query(value = "SELECT challenge.challenge_category,COUNT(DISTINCT user_code) as challenge_count FROM challenge_users JOIN challenge ON challenge.challenge_code = challenge_users.challenge_code GROUP BY challenge.challenge_category ORDER BY 2 DESC LIMIT 3", nativeQuery = true)
     List<HotChallengeInterface> findTop3ByChallengeCategory();
+
 }
