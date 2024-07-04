@@ -90,13 +90,25 @@ public class ChallengeService {
         return response.success(challengeResponseDtos);
     }
 
+    public ResponseEntity<?> getDoneChallenges(User user){
+        List<ChallengeResponseDto> challengeResponseDtos = new ArrayList<>();
+        List<Challenge> challenges = challengeRepository.findAllChallengeByChallengeUsers_UserAndState(user, State.Finish);
+        for(int i=0;i<challenges.size();i++){
+            Challenge challenge = challenges.get(i);
+            ChallengeResponseDto challengeResponseDto = ChallengeResponseDto.builder()
+                    .challenge(challenge)
+                    .me(challenge.getChallengeUsers().stream().filter(challengeUsers -> challengeUsers.getUser().getUserCode().equals(user.getUserCode())).findFirst().get())
+                    .build();
+            challengeResponseDtos.add(challengeResponseDto);
+        }
+        return response.success(challengeResponseDtos);
+    }
+
     public ResponseEntity<?> getHotChallenges(){
         return response.success(challengeRepository.findTop3ByChallengeCategory().toArray(),HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getDoneChallenges(User user){
-        return response.success(challengeRepository.findAllChallengeByChallengeUsers_UserAndState(user,State.Finish));
-    }
+
 
     public ResponseEntity<?> getInvitationList(User user, InvitationListRequest invitationListRequest){
         List<InvitationInfo> invitationInfos = invitationListRequest.getInvitationList();
