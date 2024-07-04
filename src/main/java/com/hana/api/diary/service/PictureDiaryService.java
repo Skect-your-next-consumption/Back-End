@@ -51,7 +51,7 @@ public class PictureDiaryService {
         if(pictureDiary == null){
             return response.fail(ErrorCode.DIARY_NOT_FOUND, HttpStatus.BAD_REQUEST);
         }
-        if(!pictureDiary.getUser().equals(user) && !user.getUserRole().equals(Role.Admin)){
+        if(!pictureDiary.getUser().getUserCode().equals(user.getUserCode()) && !user.getUserRole().equals(Role.Admin)){
             return response.fail(ErrorCode.DIARY_NOY_AUTHORIZED, HttpStatus.BAD_REQUEST);
         }
         pictureDiary.setDiaryTitle(title);
