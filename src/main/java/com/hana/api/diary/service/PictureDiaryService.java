@@ -149,4 +149,11 @@ public ResponseEntity<?> regenerate(String diaryCode, User user) throws IOExcept
             throw new RuntimeException("JSON 변환 실패", e);
         }
     }
+    public ResponseEntity<?> getRecentDiary(User user){
+        List<String> diaryImages = new ArrayList<>();
+        for(PictureDiary pictureDiary : pictureDiaryRepository.findTop6ByUserOrderByCreatedDateDesc(user)){
+            diaryImages.add(pictureDiary.getDiaryImage());
+        }
+        return response.success(diaryImages);
+    }
 }

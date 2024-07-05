@@ -63,4 +63,10 @@ public class PictureDiaryController {
     public ResponseEntity<?> getHotDiary() {
         return pictureDiaryService.getHotDiaryCategory();
     }
+
+    @Operation(summary = "최근 그림일기 그림", description = "최근 그림일기 그림 조회를 위한 API 입니다.")
+    @GetMapping("/recent")
+    public ResponseEntity<?> getRecentDiary(@CurrentUser User user) {
+        return pictureDiaryService.getRecentDiary(user);
+    }
 }

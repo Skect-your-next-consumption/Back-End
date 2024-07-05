@@ -18,5 +18,7 @@ public interface PictureDiaryRepository extends JpaRepository<PictureDiary, Stri
     @Query(value = "SELECT diary_concept, count(*) as diary_concept_count FROM picture_diary GROUP BY diary_concept ORDER BY COUNT(*) DESC LIMIT 3", nativeQuery = true)
     List<HotDiaryInterface> findHotDiaryCategory();
 
+    List<PictureDiary> findTop6ByUserOrderByCreatedDateDesc(User user);
+
 
 }
