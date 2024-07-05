@@ -53,6 +53,19 @@ public class PictureDiaryService {
         return response.success(pictureDiaryRepository.save(pictureDiary));
     }
 
+public ResponseEntity<?> regenerate(String diaryCode, User user) throws IOException, InterruptedException {
+        Optional<PictureDiary> diary = pictureDiaryRepository.findById(diaryCode);
+        if(!diary.isPresent()){
+            return response.fail(ErrorCode.DIARY_NOT_FOUND, HttpStatus.BAD_REQUEST);
+        }
+        if(!diary.get().getUser().getUserCode().equals(user.getUserCode()) && !user.getUserRole().equals(Role.Admin)){
+            return response.fail(ErrorCode.DIARY_NOY_AUTHORIZED, HttpStatus.BAD_REQUEST);
+        }
+        diary.get().setDiaryImage(pictureDiaryGenerator.generatePictureDiary(diary.get(),user));
+        return response.success(pictureDiaryRepository.save(diary.get()));
+    }
+
+
     public ResponseEntity<?> updateDiaryTitle(String diaryId,String title, User user){
         PictureDiary pictureDiary = pictureDiaryRepository.findById(diaryId).orElse(null);
         if(pictureDiary == null){
