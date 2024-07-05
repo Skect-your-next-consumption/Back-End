@@ -141,6 +141,15 @@ public class ChallengeService {
     }
 
     public ResponseEntity<?> getChallengeDetail(String challengeCode){
-        return response.success(challengeRepository.findById(challengeCode));
+        Optional<Challenge> challenge = challengeRepository.findById(challengeCode);
+        if(challenge.isEmpty()){
+            return response.fail(ErrorCode.CHALLENGE_NOT_FOUND, HttpStatus.BAD_REQUEST);
+        }
+        ChallengeResponseDto challengeResponseDto = ChallengeResponseDto.builder()
+                .challenge(challenge.get())
+                .me(challenge.get().getChallengeUsers().stream().filter(challengeUsers -> challengeUsers.getUser().getUserCode().equals(challenge.get().getChallengeUsers().get(0).getUser().getUserCode())).findFirst().get())
+                .build();
+
+        return response.success(challengeResponseDto);
     }
 }

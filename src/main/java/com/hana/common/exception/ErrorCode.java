@@ -37,6 +37,9 @@ public enum ErrorCode {
     DIARY_NOT_FOUND("D001", "등록된 다이어리가 아닙니다."),
     DIARY_NOY_AUTHORIZED("D002", "권한이 없습니다."),
 
+    //Challenge
+    CHALLENGE_NOT_FOUND("C001", "등록된 챌린지가 아닙니다."),
+
     // S3
     IMAGE_UPLOAD_FAIL("S001", "이미지 업로드에 실패했습니다."),
     IMAGE_DELETE_FAIL("S002", "이미지 삭제에 실패했습니다")
