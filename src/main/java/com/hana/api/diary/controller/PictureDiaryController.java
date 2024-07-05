@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +34,14 @@ public class PictureDiaryController {
         return pictureDiaryService.create(diaryCreateRequest, user);
     }
 
+    @Operation(summary = "그림일기 다시 그리기", description = "그림일기 다시 그리기를 위한 API 입니다.")
+    @PutMapping("/regenerate")
+    public ResponseEntity<?> regenerate(@RequestBody DiaryUpdateRequest diaryUpdateRequest, @CurrentUser User user) throws IOException, InterruptedException{
+        return pictureDiaryService.regenerate(diaryUpdateRequest.getDiaryId(), user);
+    }
+
     @Operation(summary = "그림일기 제목 수정", description = "그림일기 제목 수정을 위한 API 입니다.")
-    @PutMapping("/title")
+    @PutMapping("/title1")
     public ResponseEntity<?> updateDiaryTitle(@RequestBody DiaryUpdateRequest diaryCreateRequest, @CurrentUser User user) {
         return pictureDiaryService.updateDiaryTitle(diaryCreateRequest.getDiaryId(), diaryCreateRequest.getDiaryTitle(), user);
     }
@@ -54,5 +62,11 @@ public class PictureDiaryController {
     @GetMapping("/hot")
     public ResponseEntity<?> getHotDiary() {
         return pictureDiaryService.getHotDiaryCategory();
+    }
+
+    @Operation(summary = "최근 그림일기 그림", description = "최근 그림일기 그림 조회를 위한 API 입니다.")
+    @GetMapping("/recent")
+    public ResponseEntity<?> getRecentDiary(@CurrentUser User user) {
+        return pictureDiaryService.getRecentDiary(user);
     }
 }

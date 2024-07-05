@@ -53,6 +53,19 @@ public class PictureDiaryService {
         return response.success(pictureDiaryRepository.save(pictureDiary));
     }
 
+public ResponseEntity<?> regenerate(String diaryCode, User user) throws IOException, InterruptedException {
+        Optional<PictureDiary> diary = pictureDiaryRepository.findById(diaryCode);
+        if(!diary.isPresent()){
+            return response.fail(ErrorCode.DIARY_NOT_FOUND, HttpStatus.BAD_REQUEST);
+        }
+        if(!diary.get().getUser().getUserCode().equals(user.getUserCode()) && !user.getUserRole().equals(Role.Admin)){
+            return response.fail(ErrorCode.DIARY_NOY_AUTHORIZED, HttpStatus.BAD_REQUEST);
+        }
+        diary.get().setDiaryImage(pictureDiaryGenerator.generatePictureDiary(diary.get(),user));
+        return response.success(pictureDiaryRepository.save(diary.get()));
+    }
+
+
     public ResponseEntity<?> updateDiaryTitle(String diaryId,String title, User user){
         PictureDiary pictureDiary = pictureDiaryRepository.findById(diaryId).orElse(null);
         if(pictureDiary == null){
@@ -135,5 +148,12 @@ public class PictureDiaryService {
         } catch (IOException e) {
             throw new RuntimeException("JSON 변환 실패", e);
         }
+    }
+    public ResponseEntity<?> getRecentDiary(User user){
+        List<String> diaryImages = new ArrayList<>();
+        for(PictureDiary pictureDiary : pictureDiaryRepository.findTop6ByUserOrderByCreatedDateDesc(user)){
+            diaryImages.add(pictureDiary.getDiaryImage());
+        }
+        return response.success(diaryImages);
     }
 }
