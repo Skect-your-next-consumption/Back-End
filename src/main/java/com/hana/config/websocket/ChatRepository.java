@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -17,8 +18,12 @@ public class ChatRepository {
         chatRooms.put(roomId, chatRoom);
     }
 
-    public ChatRoom findById(String roomId) {
-        return chatRooms.get(roomId);
+    public Optional<ChatRoom> findById(String roomId) {
+        boolean isExist = chatRooms.containsKey(roomId);
+        if(isExist){
+            return Optional.of(chatRooms.get(roomId));
+        }
+        return Optional.empty();
     }
 
     public List<ChatRoom> findAll() {

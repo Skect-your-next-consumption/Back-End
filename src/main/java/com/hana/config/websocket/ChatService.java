@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class ChatService {
         return chatRepository.findAll();
     }
 
-    public ChatRoom findRoomById(String roomId) {
+    public Optional<ChatRoom> findRoomById(String roomId) {
         return chatRepository.findById(roomId);
     }
 
@@ -34,15 +35,22 @@ public class ChatService {
             WebSocketSession session,
             ChatMessage chatMessage
     ) {
-        ChatRoom room = findRoomById(roomId);
-
+        Optional<ChatRoom> room = findRoomById(roomId);
+        try {
+        if (room.isEmpty()){
+                session.sendMessage(new TextMessage("존재하지 않는 채팅방입니다."));
+                return;
+        }
         if (isEnterRoom(chatMessage)) {
-            room.join(session);
+            room.get().join(session);
             chatMessage.setMessage(chatMessage.getSender() + "님 환영합니다.");
         }
 
         TextMessage textMessage = Util.Chat.resolveTextMessage(chatMessage);
-        room.sendMessage(textMessage);
+        room.get().sendMessage(textMessage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private boolean isEnterRoom(ChatMessage chatMessage) {

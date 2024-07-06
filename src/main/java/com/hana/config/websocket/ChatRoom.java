@@ -44,7 +44,7 @@ public class ChatRoom {
             this.master = session;
         }else{
             try {
-                this.master.sendMessage(new TextMessage(session + "님이 입장하셨습니다."));
+                this.master.sendMessage(Util.Chat.resolveTextMessage(ChatMessage.builder().messageType(ChatMessage.MessageType.NOTICE).message(session.getId() + "님이 입장하셨습니다.").build()));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
