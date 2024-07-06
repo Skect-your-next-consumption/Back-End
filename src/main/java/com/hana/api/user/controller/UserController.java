@@ -42,6 +42,11 @@ public class UserController {
         return userService.signIn(authRequest);
     }
 
+    @GetMapping("/me")
+    public String me(@CurrentUser User user) {
+        return user.getUserCode();
+    }
+
     @Operation(summary = "내 정보조회", description = "홈에서 내 정보를 조회하기 위한 API 입니다.")
     @RequestMapping("/my-info")
     public ResponseEntity<?> getMyInfo(@CurrentUser User user) {
