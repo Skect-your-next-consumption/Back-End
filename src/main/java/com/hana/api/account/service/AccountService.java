@@ -70,42 +70,44 @@ public class AccountService {
             e.printStackTrace();
             throw new PaymentFailedException(ErrorCode.PAYMENT_FAILED);
         }
-        LocalDate thisMounth = LocalDate.now().minusDays(LocalDate.now().getDayOfMonth()-1);
-        AccountAnalysisId accountAnalysisId = AccountAnalysisId.builder()
-                .accountNum(account.getAccountNum())
-                .analysisDate(thisMounth)
-                .build();
-        accountAnalysisRepository.findById(accountAnalysisId).ifPresentOrElse(
-                accountAnalysis -> {
-                    accountAnalysis.UpdateAnalysis(accountLogRequest.getHistoryAmount(), accountLogRequest.getHistoryClass());
-                    accountAnalysisRepository.save(accountAnalysis);
-                },
-                () -> {
-                    AccountAnalysis accountAnalysis = AccountAnalysis.builder()
-                            .id(accountAnalysisId)
-                            .account(account)
-                            .build();
-                    switch(accountLogRequest.getHistoryClass()){
-                        case "식비":
-                            accountAnalysis.setAnalysisFood(accountLogRequest.getHistoryAmount());
-                            break;
-                        case "교통비":
-                            accountAnalysis.setTransportation(accountLogRequest.getHistoryAmount());
-                            break;
-                        case "카페":
-                            accountAnalysis.setAnalysisCafe(accountLogRequest.getHistoryAmount());
-                            break;
-                        case "유흥":
-                            accountAnalysis.setPleasure(accountLogRequest.getHistoryAmount());
-                            break;
-                        case "기타":
-                            accountAnalysis.setEtc(accountLogRequest.getHistoryAmount());
-                            break;
-                    }
-                    accountAnalysis.setAnalysisTotal(accountLogRequest.getHistoryAmount());
-                    log.info(accountAnalysis.toString());
-                    accountAnalysisRepository.save(accountAnalysis);
-                });
+        if(accountLogRequest.getHistoryAmount()>0) {
+            LocalDate thisMounth = LocalDate.now().minusDays(LocalDate.now().getDayOfMonth() - 1);
+            AccountAnalysisId accountAnalysisId = AccountAnalysisId.builder()
+                    .accountNum(account.getAccountNum())
+                    .analysisDate(thisMounth)
+                    .build();
+            accountAnalysisRepository.findById(accountAnalysisId).ifPresentOrElse(
+                    accountAnalysis -> {
+                        accountAnalysis.UpdateAnalysis(accountLogRequest.getHistoryAmount(), accountLogRequest.getHistoryClass());
+                        accountAnalysisRepository.save(accountAnalysis);
+                    },
+                    () -> {
+                        AccountAnalysis accountAnalysis = AccountAnalysis.builder()
+                                .id(accountAnalysisId)
+                                .account(account)
+                                .build();
+                        switch (accountLogRequest.getHistoryClass()) {
+                            case "식비":
+                                accountAnalysis.setAnalysisFood(accountLogRequest.getHistoryAmount());
+                                break;
+                            case "교통비":
+                                accountAnalysis.setTransportation(accountLogRequest.getHistoryAmount());
+                                break;
+                            case "카페":
+                                accountAnalysis.setAnalysisCafe(accountLogRequest.getHistoryAmount());
+                                break;
+                            case "유흥":
+                                accountAnalysis.setPleasure(accountLogRequest.getHistoryAmount());
+                                break;
+                            case "기타":
+                                accountAnalysis.setEtc(accountLogRequest.getHistoryAmount());
+                                break;
+                        }
+                        accountAnalysis.setAnalysisTotal(accountLogRequest.getHistoryAmount());
+                        log.info(accountAnalysis.toString());
+                        accountAnalysisRepository.save(accountAnalysis);
+                    });
+        }
         return response.success("결제 내역 생성 완료");
     }
 
