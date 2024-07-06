@@ -28,6 +28,12 @@ public class ChallengeController {
         return challengeService.create(challengeCreateRequest);
     }
 
+    @Operation(summary = "챌린지 방 열기", description = "챌린지 방을 열기 위한 API 입니다.")
+    @PostMapping("/opening")
+    public ResponseEntity<?> openChallenge(@CurrentUser User user) {
+        return challengeService.openChallenge(user);
+    }
+
     @Operation(summary = "초대 가능 유저 조회", description = "챌린지 생성 시 초대 가능한 유저를 조회하는 API 입니다.")
     @PostMapping("/invitation-list")
     public ResponseEntity<?> getInvitationList(@CurrentUser User user, @RequestBody InvitationListRequest invitationListRequest){

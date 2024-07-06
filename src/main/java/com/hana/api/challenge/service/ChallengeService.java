@@ -17,6 +17,7 @@ import com.hana.common.response.Response;
 import com.hana.common.type.State;
 import com.hana.common.util.UuidGenerator;
 import com.hana.config.security.jwt.JwtTokenProvider;
+import com.hana.config.websocket.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,8 @@ public class ChallengeService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final Response response;
+    private final ChatService chatService;
+
 
     public ResponseEntity<?> create(ChallengeCreateRequest challengeCreateRequest){
         Challenge challenge =
@@ -72,6 +75,10 @@ public class ChallengeService {
             challengeUsersRepository.save(challengeUsers);
         }
         return response.success("챌린지 생성 완료");
+    }
+
+    public ResponseEntity<?> openChallenge(User user){
+        return response.success(chatService.createRoom(user.getUserName()));
     }
 
     public ResponseEntity<?> getOngoingChallenges(User user){
