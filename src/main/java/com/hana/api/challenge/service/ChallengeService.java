@@ -156,7 +156,10 @@ public class ChallengeService {
                 .challenge(challenge.get())
                 .me(challenge.get().getChallengeUsers().stream().filter(challengeUsers -> challengeUsers.getUser().getUserCode().equals(challenge.get().getChallengeUsers().get(0).getUser().getUserCode())).findFirst().get())
                 .build();
-
         return response.success(challengeResponseDto);
+    }
+
+    public ResponseEntity<?> getChallengeStatisticsByGender(){
+        return response.success(challengeRepository.getChallengeStatisticsByGender());
     }
 }
