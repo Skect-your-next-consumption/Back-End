@@ -140,13 +140,16 @@ public class ChallengeService {
         for (int i=0;i<challenges.size();i++){
             List<ChallengeUsers> challengeUsers = challenges.get(i).getChallengeUsers();
             for (int j=0;j<challengeUsers.size();j++){
-                if(!challengeUsers.get(j).getUser().getUserCode().equals(user.getUserCode()) && !users.contains(challengeUsers.get(j).getUser())){
-                    users.add(InvitationListResponse.builder()
+                if(!challengeUsers.get(j).getUser().getUserCode().equals(user.getUserCode())){
+                    InvitationListResponse ilr =  InvitationListResponse.builder()
                             .name(challengeUsers.get(j).getUser().getUserName())
                             .phoneNum(challengeUsers.get(j).getUser().getUserPhone())
                             .imgUrl(challengeUsers.get(j).getUser().getUserProfile())
                             .userCode(challengeUsers.get(j).getUser().getUserCode())
-                            .build());
+                            .build();
+                    if (!users.stream().anyMatch(user1 -> user1.getUserCode().equals(ilr.getUserCode()))){
+                        users.add(ilr);
+                    }
                 }
             }
         }
