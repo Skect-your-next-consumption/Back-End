@@ -127,6 +127,7 @@ public class ChallengeService {
                         .phoneNum(info.getPhoneNum())
                         .realName(availableUser.get().getUserName())
                         .imgUrl(availableUser.get().getUserProfile())
+                        .userCode(availableUser.get().getUserCode())
                         .build());
             }
         }
@@ -134,13 +135,18 @@ public class ChallengeService {
     }
 
     public ResponseEntity<?> getRecentList(User user){
-        List<User> users = new ArrayList<>();
+        List<InvitationListResponse> users = new ArrayList<>();
         List<Challenge> challenges = challengeRepository.findTop3ByChallengeUsers_UserOrderByCreatedDateDesc(user);
         for (int i=0;i<challenges.size();i++){
             List<ChallengeUsers> challengeUsers = challenges.get(i).getChallengeUsers();
             for (int j=0;j<challengeUsers.size();j++){
                 if(!challengeUsers.get(j).getUser().getUserCode().equals(user.getUserCode()) && !users.contains(challengeUsers.get(j).getUser())){
-                    users.add(challengeUsers.get(j).getUser());
+                    users.add(InvitationListResponse.builder()
+                            .name(challengeUsers.get(j).getUser().getUserName())
+                            .phoneNum(challengeUsers.get(j).getUser().getUserPhone())
+                            .imgUrl(challengeUsers.get(j).getUser().getUserProfile())
+                            .userCode(challengeUsers.get(j).getUser().getUserCode())
+                            .build());
                 }
             }
         }

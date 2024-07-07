@@ -12,4 +12,5 @@ public class InvitationListResponse {
     private String phoneNum;
     private String realName;
     private String imgUrl;
+    private String userCode;
 }
