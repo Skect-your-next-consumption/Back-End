@@ -126,8 +126,8 @@ public class ChallengeService {
                         .name(info.getName())
                         .phoneNum(info.getPhoneNum())
                         .realName(availableUser.get().getUserName())
+                        .imgUrl(availableUser.get().getUserProfile())
                         .build());
-
             }
         }
         return response.success(invitationListResponses.toArray(),HttpStatus.OK);
