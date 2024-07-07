@@ -2,6 +2,7 @@ package com.hana.api.challenge.repository;
 
 import com.hana.api.challenge.dto.query.HotChallengeInterface;
 import com.hana.api.challenge.dto.query.StatisticsByGender;
+import com.hana.api.challenge.dto.query.StatisticsByRatio;
 import com.hana.api.challenge.entity.Challenge;
 import com.hana.api.user.entity.User;
 import com.hana.common.type.State;
@@ -25,5 +26,8 @@ public interface ChallengeRepository extends JpaRepository<Challenge, String> {
 
     @Query(value = "SELECT challenge.challenge_category, users.user_gender,COUNT(challenge_users.user_code)as count FROM challenge JOIN challenge_users ON challenge.challenge_code = challenge_users.challenge_code JOIN users ON challenge_users.user_code = users.user_code GROUP BY users.user_gender,challenge.challenge_category", nativeQuery = true)
     List<StatisticsByGender> getChallengeStatisticsByGender();
+
+    @Query(value = "SELECT challenge_category, COUNT(case when challenge_users.challenge_user_result=TRUE then 1 END)/COUNT(*)*100 AS ratio FROM challenge JOIN challenge_users ON challenge.challenge_code = challenge_users.challenge_code WHERE challenge.state='Finish' GROUP BY challenge_category", nativeQuery = true)
+    List<StatisticsByRatio> getChallengeSuccessRatioByCategory();
 
 }

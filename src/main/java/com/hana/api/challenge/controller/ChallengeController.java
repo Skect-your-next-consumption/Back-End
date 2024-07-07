@@ -73,4 +73,9 @@ public class ChallengeController {
     public ResponseEntity<?> getChallengeStatisticsByGender(){
         return challengeService.getChallengeStatisticsByGender();
     }
+
+    @GetMapping("/statistics/category/ratio")
+    public ResponseEntity<?> getChallengeStatisticsByRatio(){
+        return challengeService.getChallengeStatisticsByRatio();
+    }
 }

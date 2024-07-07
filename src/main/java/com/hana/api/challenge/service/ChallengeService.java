@@ -162,4 +162,8 @@ public class ChallengeService {
     public ResponseEntity<?> getChallengeStatisticsByGender(){
         return response.success(challengeRepository.getChallengeStatisticsByGender());
     }
+
+    public ResponseEntity<?> getChallengeStatisticsByRatio(){
+        return response.success(challengeRepository.getChallengeSuccessRatioByCategory());
+    }
 }
