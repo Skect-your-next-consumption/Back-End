@@ -3,8 +3,10 @@ package com.hana.api.user.controller;
 import com.hana.api.user.dto.request.LoginRequest;
 import com.hana.api.user.dto.request.ProfileRequest;
 import com.hana.api.user.dto.request.SignUpRequest;
+import com.hana.api.user.dto.response.UserForChallengeDto;
 import com.hana.api.user.entity.User;
 import com.hana.api.user.service.UserService;
+import com.hana.common.response.Response;
 import com.hana.common.type.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,8 +45,16 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public String me(@CurrentUser User user) {
-        return user.getUserCode();
+    public ResponseEntity<?> me(@CurrentUser User user) {
+        Response response = new Response();
+        UserForChallengeDto userForChallenge = UserForChallengeDto.builder()
+                .userCode(user.getUserCode())
+                .userName(user.getUserName())
+                .userProfile(user.getUserProfile())
+                .userPhone(user.getUserPhone())
+                .build();
+        log.info(userForChallenge.toString());
+        return response.success(userForChallenge);
     }
 
     @Operation(summary = "내 정보조회", description = "홈에서 내 정보를 조회하기 위한 API 입니다.")

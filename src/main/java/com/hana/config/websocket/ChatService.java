@@ -38,8 +38,17 @@ public class ChatService {
         Optional<ChatRoom> room = findRoomById(roomId);
         try {
         if (room.isEmpty()){
-                session.sendMessage(new TextMessage("존재하지 않는 채팅방입니다."));
+                session.sendMessage(Util.Chat.resolveTextMessage(ChatMessage.builder().messageType(ChatMessage.MessageType.NOTICE).message("존재하지 않는 방입니다.").build()));
                 return;
+        }
+        if(isWelcome(chatMessage)){
+            room.get().getSessions().stream().filter(s -> s.getId().equals(chatMessage.getTo())).forEach(s -> {
+                try {
+                    s.sendMessage(Util.Chat.resolveTextMessage(chatMessage));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
         if (isEnterRoom(chatMessage)) {
             room.get().join(session);
@@ -55,5 +64,9 @@ public class ChatService {
 
     private boolean isEnterRoom(ChatMessage chatMessage) {
         return chatMessage.getMessageType().equals(ChatMessage.MessageType.ENTER);
+    }
+
+    private boolean isWelcome(ChatMessage chatMessage) {
+        return chatMessage.getMessageType().equals(ChatMessage.MessageType.WELCOME);
     }
 }

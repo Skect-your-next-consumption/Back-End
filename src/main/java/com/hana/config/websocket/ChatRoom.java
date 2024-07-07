@@ -42,13 +42,14 @@ public class ChatRoom {
     public void join(WebSocketSession session) {
         if(sessions.isEmpty()){
             this.master = session;
-        }else{
-            try {
-                this.master.sendMessage(Util.Chat.resolveTextMessage(ChatMessage.builder().messageType(ChatMessage.MessageType.NOTICE).message(session.getId() + "님이 입장하셨습니다.").build()));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
         }
+//        else{
+//            try {
+//                this.master.sendMessage(Util.Chat.resolveTextMessage(ChatMessage.builder().messageType(ChatMessage.MessageType.NOTICE).message(session.getId() + "님이 입장하셨습니다.").build()));
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
         sessions.add(session);
     }
 
