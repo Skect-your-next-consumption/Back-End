@@ -55,6 +55,9 @@ public class User extends BaseEntity {
     @ColumnDefault("5")
     private Integer userCredit;
 
+    @Column(name = "user_eas")
+    private String userEas;
+
     @Column(name = "user_address", length = 100)
     private String userAddress;
 

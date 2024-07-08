@@ -6,6 +6,7 @@ import com.hana.api.account.repository.AccountAnalysisRepository;
 import com.hana.api.account.service.AccountService;
 import com.hana.api.challenge.repository.ChallengeUsersRepository;
 import com.hana.api.user.dto.request.LoginRequest;
+import com.hana.api.user.dto.request.NotificationRequest;
 import com.hana.api.user.dto.request.ProfileRequest;
 import com.hana.api.user.dto.request.SignUpRequest;
 import com.hana.api.user.dto.response.LoginResponseDto;
@@ -34,6 +35,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -110,6 +116,41 @@ public class UserService {
         } catch (AuthenticationException e) {
             return response.fail(ErrorCode.USER_UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    public ResponseEntity<?> eas(User user,String easId){
+        user.setUserEas(easId);
+        return response.success(userRepository.save(user));
+    }
+
+    public ResponseEntity<?> notificationAll(NotificationRequest notificationRequest){
+        List<String> easIds = userRepository.findAllDistinctUserEas();
+        log.info(easIds.toString());
+        String url = "https://exp.host/--/api/v2/push/send";
+        // JSON 문자열 생성
+        String requestBody = "";
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = null;
+        try {
+            for(int i=0;i<easIds.size();i++){
+                requestBody = String.format(
+                        "{\"to\":\"%s\",\"title\":\"%s\",\"body\":\"%s\"}",
+                        easIds.get(i), notificationRequest.getTitle(), notificationRequest.getMessage());
+                log.info("requestBody"+requestBody);
+                request = HttpRequest.newBuilder()
+                        .uri(URI.create(url))
+                        .header("Content-Type", "application/json")
+                        .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                        .build();
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return response.success("");
     }
 
     public ResponseEntity<?> getMyInfo(User user){

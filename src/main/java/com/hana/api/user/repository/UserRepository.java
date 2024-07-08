@@ -15,6 +15,9 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByUserId(String userId);
+
+    @Query(value = "SELECT DISTINCT user_eas from users WHERE user_eas IS NOT NULL", nativeQuery = true)
+    List<String>  findAllDistinctUserEas();
     Optional<User>findByUserPhone(String userPhone);
     boolean existsByUserId(String userId);
 }

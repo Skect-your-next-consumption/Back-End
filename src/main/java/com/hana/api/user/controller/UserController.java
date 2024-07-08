@@ -1,8 +1,7 @@
 package com.hana.api.user.controller;
 
-import com.hana.api.user.dto.request.LoginRequest;
-import com.hana.api.user.dto.request.ProfileRequest;
-import com.hana.api.user.dto.request.SignUpRequest;
+import com.google.gson.JsonObject;
+import com.hana.api.user.dto.request.*;
 import com.hana.api.user.dto.response.UserForChallengeDto;
 import com.hana.api.user.entity.User;
 import com.hana.api.user.service.UserService;
@@ -55,6 +54,16 @@ public class UserController {
                 .build();
         log.info(userForChallenge.toString());
         return response.success(userForChallenge);
+    }
+
+    @PutMapping("/eas")
+    public ResponseEntity<?> eas(@CurrentUser User user, @RequestBody EasRequest easRequest){
+        return userService.eas(user, easRequest.getEasId());
+    }
+
+    @PostMapping("/notification/all")
+    public ResponseEntity<?> notificationAll(@RequestBody NotificationRequest notificationRequest){
+        return userService.notificationAll(notificationRequest);
     }
 
     @Operation(summary = "내 정보조회", description = "홈에서 내 정보를 조회하기 위한 API 입니다.")
