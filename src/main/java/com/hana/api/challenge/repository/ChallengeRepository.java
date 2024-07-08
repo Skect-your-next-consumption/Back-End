@@ -1,6 +1,7 @@
 package com.hana.api.challenge.repository;
 
 import com.hana.api.challenge.dto.query.HotChallengeInterface;
+import com.hana.api.challenge.dto.query.MinimumBalanceUser;
 import com.hana.api.challenge.dto.query.StatisticsByGender;
 import com.hana.api.challenge.dto.query.StatisticsByRatio;
 import com.hana.api.challenge.entity.Challenge;
@@ -8,6 +9,7 @@ import com.hana.api.user.entity.User;
 import com.hana.common.type.State;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,5 +31,9 @@ public interface ChallengeRepository extends JpaRepository<Challenge, String> {
 
     @Query(value = "SELECT challenge_category, COUNT(case when challenge_users.challenge_user_result=TRUE then 1 END)/COUNT(*)*100 AS ratio FROM challenge JOIN challenge_users ON challenge.challenge_code = challenge_users.challenge_code WHERE challenge.state='Finish' GROUP BY challenge_category", nativeQuery = true)
     List<StatisticsByRatio> getChallengeSuccessRatioByCategory();
+
+    @Query(value = "SELECT account_balance, user_name FROM users JOIN accounts ON users.account_num = accounts.account_num WHERE users.user_code IN (:userCodes) order by account_balance limit 1 ", nativeQuery = true)
+    MinimumBalanceUser getMaxAmount(@Param("userCodes") List<String> userCodes);
+
 
 }

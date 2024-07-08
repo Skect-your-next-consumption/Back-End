@@ -3,6 +3,7 @@ package com.hana.api.challenge.service;
 import com.hana.api.challenge.dto.request.ChallengeCreateRequest;
 import com.hana.api.challenge.dto.request.InvitationInfo;
 import com.hana.api.challenge.dto.request.InvitationListRequest;
+import com.hana.api.challenge.dto.request.MaxAmountRequest;
 import com.hana.api.challenge.dto.response.ChallengeResponseDto;
 import com.hana.api.challenge.dto.response.InvitationListResponse;
 import com.hana.api.challenge.entity.Challenge;
@@ -74,7 +75,7 @@ public class ChallengeService {
                             .build();
             challengeUsersRepository.save(challengeUsers);
         }
-        return response.success("챌린지 생성 완료");
+        return response.success(inserted.getChallengeCode());
     }
 
     public ResponseEntity<?> openChallenge(User user){
@@ -174,5 +175,9 @@ public class ChallengeService {
 
     public ResponseEntity<?> getChallengeStatisticsByRatio(){
         return response.success(challengeRepository.getChallengeSuccessRatioByCategory());
+    }
+
+    public ResponseEntity<?> getMaxAmount(MaxAmountRequest maxAmountRequest){
+        return response.success(challengeRepository.getMaxAmount(maxAmountRequest.getIds()));
     }
 }

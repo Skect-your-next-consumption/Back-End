@@ -3,6 +3,7 @@ package com.hana.api.challenge.controller;
 
 import com.hana.api.challenge.dto.request.ChallengeCreateRequest;
 import com.hana.api.challenge.dto.request.InvitationListRequest;
+import com.hana.api.challenge.dto.request.MaxAmountRequest;
 import com.hana.api.challenge.service.ChallengeService;
 import com.hana.api.user.entity.User;
 import com.hana.common.type.CurrentUser;
@@ -77,5 +78,10 @@ public class ChallengeController {
     @GetMapping("/statistics/category/ratio")
     public ResponseEntity<?> getChallengeStatisticsByRatio(){
         return challengeService.getChallengeStatisticsByRatio();
+    }
+
+    @PostMapping("/max-amount")
+    public ResponseEntity<?> getMaxAmount(@RequestBody MaxAmountRequest maxAmountRequest){
+        return challengeService.getMaxAmount(maxAmountRequest);
     }
 }

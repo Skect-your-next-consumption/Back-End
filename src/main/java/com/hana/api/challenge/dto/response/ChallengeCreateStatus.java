@@ -17,5 +17,7 @@ public class ChallengeCreateStatus {
     private List<UserForChallengeDto> users;
     private List<ChallengeSelectDto> categoryPicks;
     private List<ChallengeSelectDto> costPicks;
-    private List<ChallengeSelectDto> periodPicks;
+    private List<ChallengeSelectDto> datePicks;
+    private String goalAmount;
+    private List<List<String>> goalAmountAgreement;
 }

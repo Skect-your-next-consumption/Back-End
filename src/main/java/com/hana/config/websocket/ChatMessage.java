@@ -2,6 +2,7 @@ package com.hana.config.websocket;
 
 import com.hana.api.challenge.dto.response.ChallengeChangeStatus;
 import com.hana.api.challenge.dto.response.ChallengeCreateStatus;
+import com.hana.api.challenge.dto.response.ChallengeStartStatus;
 import com.hana.api.user.dto.response.UserForChallengeDto;
 import com.hana.api.user.entity.User;
 import lombok.*;
@@ -12,7 +13,7 @@ import lombok.*;
 @Builder
 public class ChatMessage {
     public enum MessageType {
-        ENTER, TALK,NOTICE,WELCOME,CHANGE
+        ENTER, TALK,NOTICE,WELCOME,CHANGE,START,ACCEPT,REJECT,CREATED
     }
 
     private MessageType messageType;
@@ -23,4 +24,5 @@ public class ChatMessage {
     private UserForChallengeDto user;
     private ChallengeCreateStatus challengeCreateStatus;
     private ChallengeChangeStatus challengeChangeStatus;
+    private ChallengeStartStatus challengeStartStatus;
 }
