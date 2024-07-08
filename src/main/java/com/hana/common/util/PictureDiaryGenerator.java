@@ -51,36 +51,36 @@ public class PictureDiaryGenerator {
     private final AmazonS3 amazonS3;
     public String generatePictureDiary(PictureDiary pictureDiary, User user) throws IOException, InterruptedException {
 
-//        String prompt = pictureDiary.getDiaryConcept().toString() + ", 단순하게      " + pictureDiary.getDiaryTags().get("tags").toString() + "를 키워드로 그려줘";
-//        log.info("prompt : {}", prompt);
-//
-//        String url = "https://api.openai.com/v1/images/generations";
-//
-//        // JSON 문자열 생성
-//        String requestBody = String.format(
-//                "{\"model\":\"dall-e-3\",\"prompt\":\"%s\",\"n\":1,\"size\":\"1024x1024\"}",
-//                prompt);
-//
-//        HttpClient client = HttpClient.newHttpClient();
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(URI.create(url))
-//                .header("Content-Type", "application/json")
-//                .header("Authorization", "Bearer " + openAiSecret)
-//                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-//                .build();
-//        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//
-//        // 응답 본문에서 URL 추출
-//        String responseBody = response.body();
-//        int startIndex = responseBody.indexOf("https://"); // URL이 "https://"로 시작함
-//        int endIndex = responseBody.indexOf("\"", startIndex); // URL이 큰 따옴표로 끝남
-//        String imageUrl = responseBody.substring(startIndex, endIndex);
-//
-//        log.info(response.body());
-//        log.info("===============");
-//        log.info(imageUrl);
+        String prompt = pictureDiary.getDiaryConcept().toString() + ", 단순하게      " + pictureDiary.getDiaryTags().get("tags").toString() + "를 키워드로 그려줘";
+        log.info("prompt : {}", prompt);
 
-        String imageUrl = "https://sync-bucket1.s3.ap-northeast-2.amazonaws.com/result.png";
+        String url = "https://api.openai.com/v1/images/generations";
+
+        // JSON 문자열 생성
+        String requestBody = String.format(
+                "{\"model\":\"dall-e-3\",\"prompt\":\"%s\",\"n\":1,\"size\":\"1024x1024\"}",
+                prompt);
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + openAiSecret)
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        // 응답 본문에서 URL 추출
+        String responseBody = response.body();
+        int startIndex = responseBody.indexOf("https://"); // URL이 "https://"로 시작함
+        int endIndex = responseBody.indexOf("\"", startIndex); // URL이 큰 따옴표로 끝남
+        String imageUrl = responseBody.substring(startIndex, endIndex);
+
+        log.info(response.body());
+        log.info("===============");
+        log.info(imageUrl);
+
+//        String imageUrl = "https://sync-bucket1.s3.ap-northeast-2.amazonaws.com/result.png";
 
         URL imageURL = new URL(imageUrl);
 
