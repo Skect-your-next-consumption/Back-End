@@ -35,7 +35,7 @@ public class Challenge extends BaseEntity {
     private String challengeCategory;
 
 
-    private Long challengeCost;
+    private int challengeCost;
 
     private Integer challengeTargetAmount;
 

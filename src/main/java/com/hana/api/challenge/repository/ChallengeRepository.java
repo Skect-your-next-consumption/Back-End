@@ -35,5 +35,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, String> {
     @Query(value = "SELECT account_balance, user_name FROM users JOIN accounts ON users.account_num = accounts.account_num WHERE users.user_code IN (:userCodes) order by account_balance limit 1 ", nativeQuery = true)
     MinimumBalanceUser getMaxAmount(@Param("userCodes") List<String> userCodes);
 
+    @Query(value = "SELECT c FROM Challenge c WHERE c.state = 'ACTIVE' AND DATE_ADD(c.createdDate, c.challengePeriod, 'DAY') = CURRENT_DATE", nativeQuery = true)
+    List<Challenge> findActiveChallengesEndingToday();
 
 }

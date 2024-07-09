@@ -14,4 +14,6 @@ public interface ChallengeUsersRepository extends JpaRepository<ChallengeUsers, 
     List<OngoingChallengeInterface> findAllChallengeUsersByUserAndChallengeState_State(User user,State state);
 //    List<OngoingChallengeInterface> findAllChallengeUsersByUserAndState(User user, State state);
     Integer countByUserAndChallengeState_State(User user, State state);
+
+    List<ChallengeUsers> findByChallenge_ChallengeCodeOrderByChallengeUserSpentMoneyDesc(String challengeCode);
 }

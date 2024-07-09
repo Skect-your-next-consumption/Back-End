@@ -11,7 +11,7 @@ public class ChallengeCreateRequest {
     private String challengeName;
     private int challengePeriod;
     private String challengeCategory;
-    private Long challengeCost;
+    private int challengeCost;
     private int challengeTargetAmount;
     private List<String> challengers;
 //    private String role;

@@ -13,6 +13,7 @@ import com.hana.api.challenge.repository.ChallengeRepository;
 import com.hana.api.challenge.repository.ChallengeUsersRepository;
 import com.hana.api.user.entity.User;
 import com.hana.api.user.repository.UserRepository;
+import com.hana.api.user.service.UserService;
 import com.hana.common.exception.ErrorCode;
 import com.hana.common.response.Response;
 import com.hana.common.type.State;
@@ -44,6 +45,8 @@ public class ChallengeService {
     private final AuthenticationManager authenticationManager;
     private final Response response;
     private final ChatService chatService;
+    private final UserService userService;
+    private final ChallengeUsersService challengeUsersService;
 
 
     public ResponseEntity<?> create(ChallengeCreateRequest challengeCreateRequest){
@@ -177,7 +180,13 @@ public class ChallengeService {
         return response.success(challengeRepository.getChallengeSuccessRatioByCategory());
     }
 
-    public ResponseEntity<?> getMaxAmount(MaxAmountRequest maxAmountRequest){
+    public ResponseEntity<?> getMaxAmount(MaxAmountRequest maxAmountRequest) {
         return response.success(challengeRepository.getMaxAmount(maxAmountRequest.getIds()));
+    }
+    public void rewardChallenge(){
+        List<Challenge> rewardTarget = challengeRepository.findActiveChallengesEndingToday();
+        if (!rewardTarget.isEmpty()) {
+            rewardTarget.forEach(challengeUsersService::findChallengeUsers);
+        }
     }
 }
