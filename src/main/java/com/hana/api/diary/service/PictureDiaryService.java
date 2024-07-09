@@ -80,7 +80,7 @@ public ResponseEntity<?> regenerate(String diaryCode, User user) throws IOExcept
 
     public ResponseEntity<?> getDiaryList(User user){
         JSONArray jsonArray = new JSONArray();
-        for(PictureDiary pictureDiary : pictureDiaryRepository.findAllByUser(user)){
+        for(PictureDiary pictureDiary : pictureDiaryRepository.findAllByUserOrderByCreatedDateDesc(user)){
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("diaryCode", pictureDiary.getDiaryCode());
             jsonObject.put("diaryTitle", pictureDiary.getDiaryTitle());

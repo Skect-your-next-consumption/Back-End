@@ -19,7 +19,7 @@ import java.util.Optional;
 public interface ChallengeRepository extends JpaRepository<Challenge, String> {
     Optional<Challenge> findByChallengeCode(String challengeCode);
 
-    List<Challenge> findAllChallengeByChallengeUsers_UserAndState(User user, State state);
+    List<Challenge> findAllChallengeByChallengeUsers_UserAndStateOrderByCreatedDateDesc(User user, State state);
 
     List<Challenge> findTop3ByChallengeUsers_UserOrderByCreatedDateDesc(User user);
 

@@ -87,7 +87,7 @@ public class ChallengeService {
 
     public ResponseEntity<?> getOngoingChallenges(User user){
         List<ChallengeResponseDto> challengeResponseDtos = new ArrayList<>();
-        List<Challenge> challenges = challengeRepository.findAllChallengeByChallengeUsers_UserAndState(user, State.Active);
+        List<Challenge> challenges = challengeRepository.findAllChallengeByChallengeUsers_UserAndStateOrderByCreatedDateDesc(user, State.Active);
         for(int i=0;i<challenges.size();i++){
             Challenge challenge = challenges.get(i);
             ChallengeResponseDto challengeResponseDto = ChallengeResponseDto.builder()
@@ -101,7 +101,7 @@ public class ChallengeService {
 
     public ResponseEntity<?> getDoneChallenges(User user){
         List<ChallengeResponseDto> challengeResponseDtos = new ArrayList<>();
-        List<Challenge> challenges = challengeRepository.findAllChallengeByChallengeUsers_UserAndState(user, State.Finish);
+        List<Challenge> challenges = challengeRepository.findAllChallengeByChallengeUsers_UserAndStateOrderByCreatedDateDesc(user, State.Finish);
         for(int i=0;i<challenges.size();i++){
             Challenge challenge = challenges.get(i);
             ChallengeResponseDto challengeResponseDto = ChallengeResponseDto.builder()

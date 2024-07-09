@@ -96,7 +96,7 @@ public class AccountService {
                             case "카페":
                                 accountAnalysis.setAnalysisCafe(accountLogRequest.getHistoryAmount());
                                 break;
-                            case "유흥":
+                            case "오락":
                                 accountAnalysis.setPleasure(accountLogRequest.getHistoryAmount());
                                 break;
                             case "기타":
