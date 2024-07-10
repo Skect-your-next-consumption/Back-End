@@ -66,6 +66,11 @@ public class UserController {
         return userService.notificationAll(notificationRequest);
     }
 
+    @PostMapping("/notification/invite")
+    public ResponseEntity<?> notificationInvite(@RequestBody NotificationInviteRequest notificationInviteRequest, @CurrentUser User user){
+        return userService.notificationInvite(notificationInviteRequest,user);
+    }
+
     @Operation(summary = "내 정보조회", description = "홈에서 내 정보를 조회하기 위한 API 입니다.")
     @RequestMapping("/my-info")
     public ResponseEntity<?> getMyInfo(@CurrentUser User user) {

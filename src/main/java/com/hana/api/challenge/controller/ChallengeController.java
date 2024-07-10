@@ -66,8 +66,8 @@ public class ChallengeController {
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<?> getChallengeDetail(@RequestParam("challengeCode") String challengeCode){
-        return challengeService.getChallengeDetail(challengeCode);
+    public ResponseEntity<?> getChallengeDetail(@RequestParam("challengeCode") String challengeCode,@CurrentUser User user){
+        return challengeService.getChallengeDetail(challengeCode,user);
     }
 
     @GetMapping("/statistics/category/gender")

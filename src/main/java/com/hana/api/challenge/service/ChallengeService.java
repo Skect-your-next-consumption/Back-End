@@ -160,14 +160,14 @@ public class ChallengeService {
         return response.success(users);
     }
 
-    public ResponseEntity<?> getChallengeDetail(String challengeCode){
+    public ResponseEntity<?> getChallengeDetail(String challengeCode, User user){
         Optional<Challenge> challenge = challengeRepository.findById(challengeCode);
         if(challenge.isEmpty()){
             return response.fail(ErrorCode.CHALLENGE_NOT_FOUND, HttpStatus.BAD_REQUEST);
         }
         ChallengeResponseDto challengeResponseDto = ChallengeResponseDto.builder()
                 .challenge(challenge.get())
-                .me(challenge.get().getChallengeUsers().stream().filter(challengeUsers -> challengeUsers.getUser().getUserCode().equals(challenge.get().getChallengeUsers().get(0).getUser().getUserCode())).findFirst().get())
+                .me(challenge.get().getChallengeUsers().stream().filter(challengeUsers->challengeUsers.getUser().getUserCode().equals(user.getUserCode())).findFirst().get())
                 .build();
         return response.success(challengeResponseDto);
     }

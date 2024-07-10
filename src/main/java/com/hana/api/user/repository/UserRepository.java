@@ -18,6 +18,9 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query(value = "SELECT DISTINCT user_eas from users WHERE user_eas IS NOT NULL", nativeQuery = true)
     List<String>  findAllDistinctUserEas();
+
+    @Query(value = "SELECT DISTINCT user_eas from users WHERE user_eas IS NOT NULL AND user_code IN :userCodes", nativeQuery = true)
+    List<String> findAllDistinctUserEasByUser(@Param("userCodes") List<String> userCodes);
     Optional<User>findByUserPhone(String userPhone);
     boolean existsByUserId(String userId);
 }

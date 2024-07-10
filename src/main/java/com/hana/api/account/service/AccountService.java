@@ -89,6 +89,9 @@ public class AccountService {
                         switch (accountLogRequest.getHistoryClass()) {
                             case "식비":
                                 accountAnalysis.setAnalysisFood(accountLogRequest.getHistoryAmount());
+                                if(accountLogRequest.getHistoryCategory()=="커피전문점"){
+
+                                }
                                 break;
                             case "교통비":
                                 accountAnalysis.setTransportation(accountLogRequest.getHistoryAmount());

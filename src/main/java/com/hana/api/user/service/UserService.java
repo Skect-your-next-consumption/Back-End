@@ -5,10 +5,7 @@ import com.hana.api.account.entity.AccountAnalysisId;
 import com.hana.api.account.repository.AccountAnalysisRepository;
 import com.hana.api.account.service.AccountService;
 import com.hana.api.challenge.repository.ChallengeUsersRepository;
-import com.hana.api.user.dto.request.LoginRequest;
-import com.hana.api.user.dto.request.NotificationRequest;
-import com.hana.api.user.dto.request.ProfileRequest;
-import com.hana.api.user.dto.request.SignUpRequest;
+import com.hana.api.user.dto.request.*;
 import com.hana.api.user.dto.response.LoginResponseDto;
 import com.hana.api.user.dto.response.MyInfoResponseDto;
 import com.hana.api.user.dto.response.MyPageResponseDto;
@@ -150,6 +147,36 @@ public class UserService {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        return response.success("전체 알림을 발송했습니다.");
+    }
+
+    public ResponseEntity<?> notificationInvite(NotificationInviteRequest notificationInviteRequest, User user){
+        List<String> easIds = userRepository.findAllDistinctUserEasByUser(notificationInviteRequest.getUserCodes());
+        log.info("easIds!@#:"+easIds.toString());
+        String url = "https://exp.host/--/api/v2/push/send";
+        // JSON 문자열 생성
+        String requestBody = "";
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = null;
+        try {
+            for(int i=0;i<easIds.size();i++){
+                requestBody = String.format(
+                        "{\"to\":\"%s\",\"title\":\"%s\",\"data\":{\"url\":\"%s\"}}",
+                        easIds.get(i), "🔥"+user.getUserName()+"님이 챌린지 초대를 보냈어요!", notificationInviteRequest.getPrefix()+"ChallengeCreatePage/"+notificationInviteRequest.getRoomId());
+                log.info("requestBody"+requestBody);
+                request = HttpRequest.newBuilder()
+                        .uri(URI.create(url))
+                        .header("Content-Type", "application/json")
+                        .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                        .build();
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return response.success("");
     }
 
@@ -194,7 +221,6 @@ public class UserService {
 
 
         String imageUrl = imageUploader.updateImage(user.getUserProfile(), profileRequest.getImage());
-
         user.updateProfile(imageUrl);
         userRepository.save(user);
 
