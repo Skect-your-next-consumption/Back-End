@@ -162,7 +162,7 @@ public class UserService {
         try {
             for(int i=0;i<easIds.size();i++){
                 requestBody = String.format(
-                        "{\"to\":\"%s\",\"title\":\"%s\",\"data\":{\"url\":\"%s\"}}",
+                        "{\"to\":\"%s\",\"title\":\"%s\",\"data\":{\"url\":\"%s\",\"type\":\"invitation\"}}",
                         easIds.get(i), "🔥"+user.getUserName()+"님이 챌린지 초대를 보냈어요!", notificationInviteRequest.getPrefix()+"ChallengeCreatePage/"+notificationInviteRequest.getRoomId());
                 log.info("requestBody"+requestBody);
                 request = HttpRequest.newBuilder()

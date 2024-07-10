@@ -15,4 +15,5 @@ import java.util.List;
 public class ChallengeSelectDto {
     private String name;
     private List<UserForChallengeDto> users;
+    private boolean aiPick;
 }
